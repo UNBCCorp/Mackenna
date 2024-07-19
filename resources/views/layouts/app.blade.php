@@ -31,21 +31,23 @@
         </a>
         <ul class="nav flex-column">
             <li class="nav-item">
-                <a class="nav-link" href="{{ route('dashboard') }}"><i class="fas fa-home"></i>Home</a>
+                <a class="nav-link" href="{{ route('dashboard') }}"><i class="fas fa-home"></i>Inicio</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#"> <i class="fas fa-store"></i>Rentacard</a>
+                <a class="nav-link" href="#"> <i class="fas fa-store"></i>Rental</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('tipovehiculo.index') }}">
+                    <i class="fas fa-car"></i> Vehículos
+                </a>
+            </li>
+
             <li class="nav-item">
                 <a class="nav-link" href="#" id="configLink">
                     <i class="fas fa-cogs"></i> Configuración
+                    <i class="fas fa-chevron-down toggle-icon" id="toggleIcon"></i>
                 </a>
                 <ul class="nav hidden" id="configMenu" style="flex-direction: column;">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('tipovehiculo.index') }}">
-                            <i class="fas fa-car"></i> Vehiculos
-                        </a>
-                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">
                             <i class="fas fa-user"></i> Usuarios
@@ -57,13 +59,8 @@
                         </a>
                     </li>
                 </ul>
-
-
             </li>
         </ul>
-
-
-
     </div>
     <!-- User Profile Dropdown -->
     <div class="dropdown profile-dropdown">
@@ -108,10 +105,12 @@
     document.addEventListener('DOMContentLoaded', function() {
         var configLink = document.getElementById('configLink');
         var configMenu = document.getElementById('configMenu');
+        var toggleIcon = document.getElementById('toggleIcon');
 
         configLink.addEventListener('click', function(event) {
             event.preventDefault();
             configMenu.classList.toggle('hidden');
+            toggleIcon.classList.toggle('rotate');
         });
     });
 </script>
