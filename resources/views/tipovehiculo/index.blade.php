@@ -2,10 +2,16 @@
 
 @section('content')
     <div class="container">
-        <h1 class="flex-grow-1 text-center mb-0">Grupo Vehiculos</h1>
+        <h1 class="flex-grow-1 text-center mb-0">Grupo Vehículos</h1>
         <br />
-        <a href="" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createTipovehiculoModal">+Crear
-            Grupo</a>
+
+        <!-- Habilita el botón de crear solo si el usuario tiene el permiso correspondiente -->
+        @if (in_array(5, $permisosUsuario))
+            <!-- Cambia 8 por el ID del permiso necesario -->
+            <a href="" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createTipovehiculoModal">+Crear
+                Grupo</a>
+        @endif
+
         <a href="{{ route('marcavehiculo.index') }}" class="btn btn-outline-secondary">Marcas</a>
         <form action="{{ route('tipovehiculo.index') }}" method="GET" class="mb-3">
             <br />
@@ -24,42 +30,52 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($tipos as $tipos)
+                @foreach ($tipos as $tipo)
                     <tr>
-                        <td>{{ $tipos->id }}</td>
-                        <td>{{ $tipos->nombre }}</td>
-                        <td>
+                        @if (in_array(7, $permisosUsuario))
+                            <td>{{ $tipo->id }}</td>
+                            <td>{{ $tipo->nombre }}</td>
+                            <td>
+                        @endif
+
+                        <!-- Habilita el botón de editar solo si el usuario tiene el permiso correspondiente -->
+                        @if (in_array(6, $permisosUsuario))
+                            <!-- Cambia 9 por el ID del permiso necesario -->
                             <a href="#" class="btn btn-warning" data-bs-toggle="modal"
-                                data-bs-target="#editTipovehiculoModal" data-id="{{ $tipos->id }}"
-                                data-name="{{ $tipos->nombre }}">
+                                data-bs-target="#editTipovehiculoModal" data-id="{{ $tipo->id }}"
+                                data-name="{{ $tipo->nombre }}">
                                 <i class="fas fa-edit"></i>
                             </a>
+                        @endif
 
-
-                            <form action="{{ route('tipovehiculo.destroy', $tipos->id) }}" method="POST"
+                        <!-- Habilita el botón de eliminar solo si el usuario tiene el permiso correspondiente -->
+                        @if (in_array(8, $permisosUsuario))
+                            <!-- Cambia 10 por el ID del permiso necesario -->
+                            <form action="{{ route('tipovehiculo.destroy', $tipo->id) }}" method="POST"
                                 style="display:inline;">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i></button>
                             </form>
-
+                        @endif
                         </td>
                     </tr>
                 @endforeach
-
             </tbody>
         </table>
     </div>
+
     @include('tipovehiculo.create')
     @include('tipovehiculo.edit')
 @endsection
+
 @section('scripts')
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            var createPermissionModal = document.getElementById('createPermissionModal');
-            createPermissionModal.addEventListener('hidden.bs.modal', function() {
+            var createTipovehiculoModal = document.getElementById('createTipovehiculoModal');
+            createTipovehiculoModal.addEventListener('hidden.bs.modal', function() {
                 window.location.reload();
             });
         });
