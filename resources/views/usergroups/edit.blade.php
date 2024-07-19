@@ -35,14 +35,28 @@
                                         $tipospermisos = \App\Models\Permiso::all();
                                     @endphp
                                     @if ($tipospermisos->isNotEmpty())
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="select_all_permissions"
+                                                onclick="selectAllPermissions(this)">
+                                            <label class="form-check-label" for="select_all_permissions">
+                                                Seleccionar todos
+                                            </label>
+                                        </div>
+
+                                        <script>
+                                            function selectAllPermissions(checkbox) {
+                                                var permissionCheckboxes = document.querySelectorAll('.permission-checkbox');
+                                                permissionCheckboxes.forEach(function(permissionCheckbox) {
+                                                    permissionCheckbox.checked = checkbox.checked;
+                                                });
+                                            }
+                                        </script>
                                         <div class="d-flex flex-wrap">
                                             @foreach ($tipospermisos as $permission)
                                                 <div class="form-check me-3">
-                                                    <!-- Agregamos 'me-3' para margen derecho -->
-                                                    <input class="form-check-input" type="checkbox" name="permissions[]"
-                                                        value="{{ $permission->id }}"
-                                                        id="permission_{{ $permission->id }}"
-                                                        @if (isset($selectedPermissions) && in_array($permission->id, $selectedPermissions)) checked @endif>
+                                                    <input class="form-check-input permission-checkbox" type="checkbox"
+                                                        name="permissions[]" value="{{ $permission->id }}"
+                                                        id="permission_{{ $permission->id }}">
                                                     <label class="form-check-label"
                                                         for="permission_{{ $permission->id }}">
                                                         {{ $permission->nombre }}
@@ -55,8 +69,6 @@
                                     @endif
                                 </div>
 
-
-
                                 <div class="text-center pt-1 mb-5 pb-1">
                                     <button class="btn btn-primary btn-block" type="submit">Actualizar</button>
                                 </div>
@@ -67,11 +79,38 @@
             </div>
         </div>
     </div>
-    <script src="{{ asset('assets/nombre.js') }}"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            var selectAllCheckbox = document.getElementById('select_all_permissions');
+            var permissionCheckboxes = document.querySelectorAll('.permission-checkbox');
+
+            function updateSelectAllCheckboxState() {
+                // Verifica si todos los checkboxes están seleccionados
+                selectAllCheckbox.checked = Array.from(permissionCheckboxes).every(cb => cb.checked);
+            }
+
+            // Maneja el evento de cambio del checkbox "Seleccionar todos"
+            selectAllCheckbox.addEventListener('change', function() {
+                permissionCheckboxes.forEach(function(checkbox) {
+                    checkbox.checked = selectAllCheckbox.checked;
+                });
+            });
+
+            // Maneja el evento de cambio de los checkboxes individuales
+            permissionCheckboxes.forEach(function(permissionCheckbox) {
+                permissionCheckbox.addEventListener('change', function() {
+                    var allSelected = Array.prototype.every.call(permissionCheckboxes, function(
+                        permissionCheckbox) {
+                        return permissionCheckbox.checked;
+                    });
+
+                    document.getElementById('select_all_permissions').checked = allSelected;
+                });
+            })
+            // Maneja el evento de mostrar el modal
             var editUserGroupModal = document.getElementById('editUserGroupModal');
 
             editUserGroupModal.addEventListener('show.bs.modal', function(event) {
@@ -88,16 +127,12 @@
                 // Seleccionar los permisos asignados
                 var selectedPermissions = JSON.parse(permissions || '[]').map(
                     Number); // Convertir a enteros
-                console.log("Permisos seleccionados:",
-                    selectedPermissions); // Para ver qué permisos se están pasando
-                var checkboxes = document.querySelectorAll('input[type="checkbox"]');
-
-                checkboxes.forEach(function(checkbox) {
+                permissionCheckboxes.forEach(function(checkbox) {
                     checkbox.checked = selectedPermissions.includes(parseInt(checkbox.value));
-                    console.log(
-                        `Checkbox ${checkbox.value} checked: ${checkbox.checked}`
-                    ); // Verificar qué checkboxes se marcan
                 });
+
+                // Actualizar el estado del checkbox "Seleccionar todos"
+                updateSelectAllCheckboxState();
             });
         });
     </script>
