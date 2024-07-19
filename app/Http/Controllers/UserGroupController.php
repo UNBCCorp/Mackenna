@@ -12,6 +12,20 @@ class UserGroupController extends Controller
     public function index(Request $request)
     {
         $search = $request->input('search');
+
+        // Obtén el usuario autenticado y su grupo de usuarios
+        $user = auth()->user();
+        $userGroup = UserGroup::find($user->tipo_usuario);
+
+        // Si no hay grupo de usuarios asignado, redirige o muestra un mensaje de error
+        if (!$userGroup) {
+            return redirect()->route('dashboard')->with('error', 'No se ha asignado un grupo de usuario.');
+        }
+
+        // Decodifica los permisos del grupo de usuarios
+        $permisosUsuario = !empty($userGroup->permisos) ? json_decode($userGroup->permisos, true) : [];
+
+        // Consulta los grupos de usuario con el filtro de búsqueda
         $userGroupsQuery = UserGroup::query();
 
         if (!empty($search)) {
@@ -27,8 +41,9 @@ class UserGroupController extends Controller
         // Obtener todos los permisos de la base de datos
         $permisos = Permiso::all()->keyBy('id'); // Usar keyBy para un acceso más fácil
 
-        return view('usergroups.index', compact('userGroups', 'search', 'permisos'));
+        return view('usergroups.index', compact('userGroups', 'search', 'permisos', 'permisosUsuario'));
     }
+
 
 
     public function create()
