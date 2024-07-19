@@ -20,7 +20,7 @@
                 <tr>
                     <th>ID</th>
                     <th>Nombre</th>
-                    <th>Acciones</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -32,7 +32,7 @@
                             <a href="#" class="btn btn-warning" data-bs-toggle="modal"
                                 data-bs-target="#editMarcavehiculoModal" data-id="{{ $marca->id }}"
                                 data-name="{{ $marca->nombre }}">
-                                Editar
+                                <i class="fas fa-edit"></i>
                             </a>
 
 
@@ -41,7 +41,7 @@
                                 style="display:inline;">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-danger">Eliminar</button>
+                                <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i></button>
                             </form>
 
                         </td>

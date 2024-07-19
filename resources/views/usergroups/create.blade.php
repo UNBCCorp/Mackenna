@@ -34,11 +34,18 @@
                                     $tipospermisos = \App\Models\Permiso::all();
                                 @endphp
                                 @if (isset($tipospermisos) && $tipospermisos->isNotEmpty())
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="select_all_permissions">
+                                        <label class="form-check-label" for="select_all_permissions">
+                                            Seleccionar todos
+                                        </label>
+                                    </div>
                                     <div class="d-flex flex-wrap">
                                         @foreach ($tipospermisos as $permission)
                                             <div class="form-check me-3"> <!-- Agregamos 'me-3' para margen derecho -->
-                                                <input class="form-check-input" type="checkbox" name="permissions[]"
-                                                    value="{{ $permission->id }}" id="permission_{{ $permission->id }}"
+                                                <input class="form-check-input permission-checkbox" type="checkbox"
+                                                    name="permissions[]" value="{{ $permission->id }}"
+                                                    id="permission_{{ $permission->id }}"
                                                     @if (isset($selectedPermissions) && in_array($permission->id, $selectedPermissions)) checked @endif>
                                                 <label class="form-check-label" for="permission_{{ $permission->id }}">
                                                     {{ $permission->nombre }}
@@ -50,31 +57,42 @@
                                     <p>No hay permisos disponibles.</p>
                                 @endif
                             </div>
-                            
-
 
                             <div class="text-center pt-1 mb-5 pb-1">
-                                <button class="btn btn-primary btn-block fa-lg  mb-3" type="submit">Guardar</button>
+                                <button class="btn btn-primary btn-block fa-lg mb-3" type="submit">Guardar</button>
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
-
-
-
     </div>
+
     <script src="{{ asset('assets/nombre.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            var createUserGroupModalLabel = document.getElementById('createUserGroupModalLabel');
+            var selectAllCheckbox = document.getElementById('select_all_permissions');
+            var permissionCheckboxes = document.querySelectorAll('.permission-checkbox');
 
-            createUserGroupModalLabel.addEventListener('submit', function(e) {
+            selectAllCheckbox.addEventListener('change', function() {
+                permissionCheckboxes.forEach(function(checkbox) {
+                    checkbox.checked = selectAllCheckbox.checked;
+                });
+            });
+
+            permissionCheckboxes.forEach(function(checkbox) {
+                checkbox.addEventListener('change', function() {
+                    if (!checkbox.checked) {
+                        selectAllCheckbox.checked = false;
+                    }
+                });
+            });
+
+            var form = document.querySelector('form');
+            form.addEventListener('submit', function(e) {
                 e.preventDefault();
-                var form = this;
                 var formData = new FormData(form);
                 var request = new XMLHttpRequest();
                 request.open(form.method, form.action, true);
@@ -85,10 +103,9 @@
                         if (response.success) {
                             form.reset();
                             var modal = bootstrap.Modal.getInstance(document.getElementById(
-                                'createUserGroupModalLabel'));
+                                'createUserGroupModal'));
                             modal.hide();
                         } else {
-                            // Manejar errores
                             document.getElementById('nameError').textContent = response.errors.name;
                         }
                     }
