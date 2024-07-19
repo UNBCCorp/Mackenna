@@ -4,7 +4,11 @@
     <div class="container">
         <h1 class="flex-grow-1 text-center mb-0">Roles</h1>
         <br />
-        <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createUserGroupModal">+Crear Rol</a>
+        <!-- Habilita el botón de crear solo si el usuario tiene el permiso correspondiente -->
+        @if (in_array(9, $permisosUsuario))
+            <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createUserGroupModal">+Crear
+                Rol</a>
+        @endif
         <br />
         <form action="{{ route('usergroups.index') }}" method="GET" class="mb-3">
             <br />
@@ -40,24 +44,28 @@
                                 @endforeach
                             </td>
                             <td class="action-buttons">
-                                <a href="#" class="btn btn-warning" data-bs-toggle="modal"
-                                    data-bs-target="#editUserGroupModal" data-id="{{ $userGroup->id }}"
-                                    data-name="{{ $userGroup->nombre }}"
-                                    data-permissions="{{ json_encode($userGroup->permisos) }}">
-                                    <i class="fas fa-edit"></i> <!-- Ícono de lápiz -->
-                                </a>
-
+                                <!-- Habilita el botón de editar solo si el usuario tiene el permiso correspondiente -->
+                                @if (in_array(11, $permisosUsuario))
+                                    <a href="#" class="btn btn-warning" data-bs-toggle="modal"
+                                        data-bs-target="#editUserGroupModal" data-id="{{ $userGroup->id }}"
+                                        data-name="{{ $userGroup->nombre }}"
+                                        data-permissions="{{ json_encode($userGroup->permisos) }}">
+                                        <i class="fas fa-edit"></i> <!-- Ícono de lápiz -->
+                                    </a>
+                                @endif
                             </td>
                             <td class="action-buttons">
-                                <form action="{{ route('usergroups.destroy', $userGroup->id) }}" method="POST"
-                                    style="display:inline;">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-danger">
-                                        <i class="fas fa-trash"></i> <!-- Ícono de basura -->
-                                    </button>
-                                </form>
-
+                                <!-- Habilita el botón de eliminar solo si el usuario tiene el permiso correspondiente -->
+                                @if (in_array(12, $permisosUsuario))
+                                    <form action="{{ route('usergroups.destroy', $userGroup->id) }}" method="POST"
+                                        style="display:inline;">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger">
+                                            <i class="fas fa-trash"></i> <!-- Ícono de basura -->
+                                        </button>
+                                    </form>
+                                @endif
                             </td>
                         </tr>
                     @endforeach

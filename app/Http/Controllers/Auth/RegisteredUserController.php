@@ -43,6 +43,7 @@ class RegisteredUserController extends Controller
                 'numero_telefonico' => $request->numero_telefonico,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
+                'tipo_usuario' => '2',
             ]);
 
             // Autenticación automática

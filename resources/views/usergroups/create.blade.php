@@ -12,7 +12,7 @@
     <div class="container">
         <div class="modal fade" id="createUserGroupModal" tabindex="-1" aria-labelledby="createUserGroupModalLabel"
             aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="createUserGroupModalLabel">Crear Rol</h5>
@@ -39,17 +39,23 @@
                                         <label class="form-check-label" for="select_all_permissions">
                                             Seleccionar todos
                                         </label>
+
                                     </div>
-                                    <div class="d-flex flex-wrap">
+                                    <br />
+                                    <div class="row g-3">
                                         @foreach ($tipospermisos as $permission)
-                                            <div class="form-check me-3"> <!-- Agregamos 'me-3' para margen derecho -->
-                                                <input class="form-check-input permission-checkbox" type="checkbox"
-                                                    name="permissions[]" value="{{ $permission->id }}"
-                                                    id="permission_{{ $permission->id }}"
-                                                    @if (isset($selectedPermissions) && in_array($permission->id, $selectedPermissions)) checked @endif>
-                                                <label class="form-check-label" for="permission_{{ $permission->id }}">
-                                                    {{ $permission->nombre }}
-                                                </label>
+                                            <div class="col-md-4">
+                                                <!-- Ajusta el tamaño de la columna según necesites -->
+                                                <div class="form-check">
+                                                    <input class="form-check-input permission-checkbox" type="checkbox"
+                                                        name="permissions[]" value="{{ $permission->id }}"
+                                                        id="permission_{{ $permission->id }}"
+                                                        @if (isset($selectedPermissions) && in_array($permission->id, $selectedPermissions)) checked @endif>
+                                                    <label class="form-check-label"
+                                                        for="permission_{{ $permission->id }}">
+                                                        {{ $permission->nombre }}
+                                                    </label>
+                                                </div>
                                             </div>
                                         @endforeach
                                     </div>
@@ -57,6 +63,7 @@
                                     <p>No hay permisos disponibles.</p>
                                 @endif
                             </div>
+
 
                             <div class="text-center pt-1 mb-5 pb-1">
                                 <button class="btn btn-primary btn-block fa-lg mb-3" type="submit">Guardar</button>

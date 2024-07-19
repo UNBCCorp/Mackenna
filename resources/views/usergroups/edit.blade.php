@@ -12,7 +12,7 @@
     <div class="container">
         <div class="modal fade" id="editUserGroupModal" tabindex="-1" aria-labelledby="editUserGroupModalLabel"
             aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="editUserGroupModalLabel">Editar Rol</h5>
@@ -51,9 +51,10 @@
                                                 });
                                             }
                                         </script>
-                                        <div class="d-flex flex-wrap">
+                                        <br />
+                                        <div class="row g-3">
                                             @foreach ($tipospermisos as $permission)
-                                                <div class="form-check me-3">
+                                                <div class="col-md-4">
                                                     <input class="form-check-input permission-checkbox" type="checkbox"
                                                         name="permissions[]" value="{{ $permission->id }}"
                                                         id="permission_{{ $permission->id }}">
