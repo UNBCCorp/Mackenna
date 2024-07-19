@@ -103,3 +103,22 @@ display: block; /* Asegura que cada enlace se muestre como un bloque */
 .hidden {
 display: none;
 }
+.nav-link {
+display: flex;
+align-items: center; /* Alinea verticalmente el ícono y el texto */
+}
+
+.nav-link i {
+margin-right: 15px; /* Ajusta el valor para definir el espacio deseado */
+}
+.profile-dropdown {
+position: absolute; /* Posiciona el contenedor en relación a su contenedor padre */
+top: 0; /* Ajusta el valor según sea necesario */
+right: 0; /* Ajusta el valor según sea necesario */
+margin: 10px; /* Opcional: añade margen para separar del borde */
+}
+
+.profile-dropdown .dropdown-menu {
+right: 0; /* Alinea el menú desplegable con el borde derecho del contenedor */
+left: auto; /* Asegura que el menú no se desplace a la izquierda */
+}
