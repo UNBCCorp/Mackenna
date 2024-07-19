@@ -32,8 +32,11 @@
                 <tbody>
                     @foreach ($userGroups as $userGroup)
                         <tr>
-                            <td>{{ $userGroup->id }}</td>
-                            <td>{{ $userGroup->nombre }}</td>
+                            @if (in_array(10, $permisosUsuario))
+                                <td>{{ $userGroup->id }}</td>
+                                <td>{{ $userGroup->nombre }}</td>
+                            @endif
+
                             <td>
                                 @foreach ($userGroup->permisos as $permisoId)
                                     @if (isset($permisos[$permisoId]))

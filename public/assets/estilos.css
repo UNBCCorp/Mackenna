@@ -1,43 +1,105 @@
 .gradient-custom-2 {
-    /* fallback for old browsers */
-    background: #fccb90;
-    
-    /* Chrome 10-25, Safari 5.1-6 */
-    background: -webkit-linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);
-    
-    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-    background: linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);
-    }
-    
-    @media (min-width: 768px) {
-    .gradient-form {
-    height: 100vh !important;
-    }
-    }
-    @media (min-width: 769px) {
-    .gradient-custom-2 {
-    border-top-right-radius: .3rem;
-    border-bottom-right-radius: .3rem;
-    }
-    }
-    #dropdownMenuButton{
-      margin-left: -130px;  
-    }
-    #dropdown-menu2{
-        margin-left: -130px;  
-      }
-      .custom-toggle-password {
-        height: 100%; /* Ajusta la altura al 100% del contenedor */
-        font-size: 1.2rem; /* Ajusta el tamaño del icono según sea necesario */
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    .permission-checkbox {
-      margin-right: 10px; /* Espacio a la derecha del checkbox */
+  /* fallback for old browsers */
+  background: #fccb90;
+  
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: -webkit-linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);
+  
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);
   }
   
-  .form-check-label {
-      margin-left: 5px; /* Espacio a la izquierda de la etiqueta del checkbox */
+  @media (min-width: 768px) {
+  .gradient-form {
+  height: 100vh !important;
   }
-    
+  }
+  @media (min-width: 769px) {
+  .gradient-custom-2 {
+  border-top-right-radius: .3rem;
+  border-bottom-right-radius: .3rem;
+  }
+  }
+ 
+    .custom-toggle-password {
+      height: 100%; /* Ajusta la altura al 100% del contenedor */
+      font-size: 1.2rem; /* Ajusta el tamaño del icono según sea necesario */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+  }
+  .permission-checkbox {
+    margin-right: 10px; /* Espacio a la derecha del checkbox */
+}
+
+.form-check-label {
+    margin-left: 5px; /* Espacio a la izquierda de la etiqueta del checkbox */
+}
+/*Estilos navbar*/
+body {
+  display: flex;
+  margin: 0;
+  padding: 0;
+}
+
+.sidebar {
+  height: 100vh;
+  width: 250px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #f8f9fa;
+  padding-top: 20px;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+}
+
+.sidebar .nav-link {
+  padding: 10px 15px;
+  color: #333;
+  display: block;
+}
+
+.sidebar .nav-link:hover {
+  background-color: #e9ecef;
+}
+
+.sidebar .collapse {
+  padding-left: 15px;
+}
+
+.sidebar .nav-item .collapse .nav-link {
+  padding-left: 30px;
+}
+
+.content {
+  margin-left: 250px;
+  padding: 20px;
+  flex: 1;
+}
+
+.nav-item .fa-cogs {
+  margin-right: 8px;
+}
+.sidebar.nav-item.nav-link.active {
+background-color: #e9ecef;
+}
+#configMenu {
+list-style-type: none; /* Elimina los puntos de la lista */
+padding: 0; /* Elimina el padding del ul */
+margin: 0; /* Elimina el margin del ul */
+}
+
+/* Asegura que cada elemento de la lista se muestre en una nueva línea */
+#configMenu .nav-item {
+display: block; /* Asegura que cada li se muestre como un bloque */
+margin-bottom: 10px; /* Añade espacio entre los elementos (opcional) */
+}
+
+/* Asegura que los enlaces se comporten como bloques */
+#configMenu .nav-link {
+display: block; /* Asegura que cada enlace se muestre como un bloque */
+}
+.hidden {
+display: none;
+}

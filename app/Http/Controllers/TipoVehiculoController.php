@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\TipoVehiculo;
 use Illuminate\Http\Request;
+use App\Models\UserGroup;
 
 class TipoVehiculoController extends Controller
 {
@@ -12,17 +13,31 @@ class TipoVehiculoController extends Controller
     {
         $search = $request->input('search');
 
-        $tipos = Tipovehiculo::query();
+        // Obtén el usuario autenticado y su grupo de usuarios
+        $user = auth()->user();
+        $userGroup = UserGroup::find($user->tipo_usuario);
 
-        if (!empty($search)) {
-            $tipos->where('nombre', 'like', '%' . $search . '%');
+        // Si no hay grupo de usuarios asignado, redirige o muestra un mensaje de error
+        if (!$userGroup) {
+            return redirect()->route('dashboard')->with('error', 'No se ha asignado un grupo de usuario.');
         }
 
-        $tipos = $tipos->get();
+        // Decodifica los permisos del grupo de usuarios
+        $permisosUsuario = !empty($userGroup->permisos) ? json_decode($userGroup->permisos, true) : [];
+
+        // Consulta los tipos de vehículo con el filtro de búsqueda
+        $tiposQuery = TipoVehiculo::query();
+
+        if (!empty($search)) {
+            $tiposQuery->where('nombre', 'like', '%' . $search . '%');
+        }
+
+        $tipos = $tiposQuery->get();
 
         return view('tipovehiculo.index', [
             'tipos' => $tipos,
             'search' => $search,
+            'permisosUsuario' => $permisosUsuario, // Pasa los permisos a la vista
         ]);
     }
 
