@@ -62,30 +62,31 @@
             </li>
         </ul>
 
-        <!-- User Profile Dropdown -->
-        <div class="dropdown mt-auto">
-            @if (Auth::check())
-                <button class="btn btn-outline-danger dropdown-toggle w-100" type="button" id="dropdownMenuButton"
-                    data-bs-toggle="dropdown" aria-expanded="false">
-                    {{ Auth::user()->name }}
-                </button>
-            @else
-                <a href="{{ route('login') }}" class="btn btn-outline-danger w-100">Ingresar</a>
-            @endif
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="dropdown-menu2">
-                <li><a class="dropdown-item" href="#">Editar Perfil</a></li>
-                <li>
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                        @csrf
-                    </form>
-                    <a class="dropdown-item" href="#"
-                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Cerrar
-                        Sesión</a>
-                </li>
-            </ul>
-        </div>
-    </div>
 
+
+    </div>
+    <!-- User Profile Dropdown -->
+    <div class="dropdown profile-dropdown">
+        @if (Auth::check())
+            <button class="btn btn-outline-danger dropdown-toggle" type="button" id="dropdownMenuButton"
+                data-bs-toggle="dropdown" aria-expanded="false">
+                {{ Auth::user()->name }}
+            </button>
+        @else
+            <a href="{{ route('login') }}" class="btn btn-outline-danger">Ingresar</a>
+        @endif
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="dropdown-menu2">
+            <li><a class="dropdown-item" href="#">Editar Perfil</a></li>
+            <li>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                    @csrf
+                </form>
+                <a class="dropdown-item" href="#"
+                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Cerrar
+                    Sesión</a>
+            </li>
+        </ul>
+    </div>
     <div class="content">
         <div class="container mt-4">
             @yield('content') <!-- Aquí se renderizará el contenido de la sección -->
