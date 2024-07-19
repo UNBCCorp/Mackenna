@@ -34,20 +34,23 @@
                                     $tipospermisos = \App\Models\Permiso::all();
                                 @endphp
                                 @if (isset($tipospermisos) && $tipospermisos->isNotEmpty())
-                                    @foreach ($tipospermisos as $permission)
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" name="permissions[]"
-                                                value="{{ $permission->id }}" id="permission_{{ $permission->id }}"
-                                                @if (isset($selectedPermissions) && in_array($permission->id, $selectedPermissions)) checked @endif>
-                                            <label class="form-check-label" for="permission_{{ $permission->id }}">
-                                                {{ $permission->nombre }}
-                                            </label>
-                                        </div>
-                                    @endforeach
+                                    <div class="d-flex flex-wrap">
+                                        @foreach ($tipospermisos as $permission)
+                                            <div class="form-check me-3"> <!-- Agregamos 'me-3' para margen derecho -->
+                                                <input class="form-check-input" type="checkbox" name="permissions[]"
+                                                    value="{{ $permission->id }}" id="permission_{{ $permission->id }}"
+                                                    @if (isset($selectedPermissions) && in_array($permission->id, $selectedPermissions)) checked @endif>
+                                                <label class="form-check-label" for="permission_{{ $permission->id }}">
+                                                    {{ $permission->nombre }}
+                                                </label>
+                                            </div>
+                                        @endforeach
+                                    </div>
                                 @else
                                     <p>No hay permisos disponibles.</p>
                                 @endif
                             </div>
+                            
 
 
                             <div class="text-center pt-1 mb-5 pb-1">
