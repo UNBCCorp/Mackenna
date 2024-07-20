@@ -18,8 +18,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('assets/estilos.css') }}">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-
-
 </head>
 
 <body class="font-sans antialiased">
@@ -37,9 +35,27 @@
                 <a class="nav-link" href="#"> <i class="fas fa-store"></i>Rental</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ route('tipovehiculo.index') }}">
-                    <i class="fas fa-car"></i> Vehículos
+                <a class="nav-link" href="#" id="configLink2">
+                    <i class="fas fa-car"></i> Vehiculos
+                    <i class="fas fa-chevron-down toggle-icon" id="toggleIcon2"></i>
                 </a>
+                <ul class="nav hidden" id="configMenu2" style="flex-direction: column;">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('tipovehiculo.index') }}">
+                            <i class="fas fa-car-rear"></i> Grupos
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('marcavehiculo.index') }}">
+                            <i class="fas fa-car"></i> Marcas
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('usergroups.index') }}">
+                            <i class="fas fa-car-side"></i> Modelos
+                        </a>
+                    </li>
+                </ul>
             </li>
 
             <li class="nav-item">
@@ -56,6 +72,11 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('usergroups.index') }}">
                             <i class="fas fa-user-tag"></i> Roles
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('usergroups.index') }}">
+                            <i class="fas fa-money-bill-wave"></i> Tarifas
                         </a>
                     </li>
                 </ul>
@@ -104,15 +125,25 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         var configLink = document.getElementById('configLink');
+        var configLink2 = document.getElementById('configLink2');
         var configMenu = document.getElementById('configMenu');
+        var configMenu2 = document.getElementById('configMenu2');
         var toggleIcon = document.getElementById('toggleIcon');
+        var toggleIcon2 = document.getElementById('toggleIcon2');
 
         configLink.addEventListener('click', function(event) {
             event.preventDefault();
             configMenu.classList.toggle('hidden');
             toggleIcon.classList.toggle('rotate');
         });
+        configLink2.addEventListener('click', function(event) {
+            event.preventDefault();
+            configMenu2.classList.toggle('hidden');
+            toggleIcon2.classList.toggle('rotate');
+        });
     });
 </script>
+
+@yield('scripts')
 
 </html>
