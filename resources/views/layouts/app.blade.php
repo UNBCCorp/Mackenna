@@ -36,7 +36,7 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#" id="configLink2">
-                    <i class="fas fa-car"></i> Vehiculos
+                    <i class="fas fa-car"></i> Vehículos
                     <i class="fas fa-chevron-down toggle-icon" id="toggleIcon2"></i>
                 </a>
                 <ul class="nav hidden" id="configMenu2" style="flex-direction: column;">
@@ -75,7 +75,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('usergroups.index') }}">
+                        <a class="nav-link" href="{{ route('tarifas.index') }}">
                             <i class="fas fa-money-bill-wave"></i> Tarifas
                         </a>
                     </li>

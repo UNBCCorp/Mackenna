@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserGroupController;
 use App\Http\Controllers\TipoVehiculoController;
 use App\Http\Controllers\MarcaVehiculoController;
+use App\Http\Controllers\TarifaController;
 // Ruta principal
 Route::get('/', function () {
     return redirect()->route('login'); // Cambia 'login' por el nombre de tu ruta de login
@@ -32,3 +33,4 @@ Route::resource('tipovehiculo', TipoVehiculoController::class);
 Route::resource('marcavehiculo', MarcaVehiculoController::class);
 Route::get('/marcavehiculo/{marcaVehiculo}/edit', [MarcaVehiculoController::class, 'edit'])->name('marcavehiculo.edit');
 Route::put('marcavehiculo/{id}', 'MarcavehiculoController@update')->name('marcavehiculo.update');
+Route::resource('tarifas', TarifaController::class);
