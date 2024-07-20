@@ -35,31 +35,33 @@
                             @if (in_array(10, $permisosUsuario))
                                 <td>{{ $userGroup->id }}</td>
                                 <td>{{ $userGroup->nombre }}</td>
+                                <td>
+                                    @foreach ($userGroup->permisos as $permisoId)
+                                        @if (isset($permisos[$permisoId]))
+                                            <span class="badge bg-secondary">{{ $permisos[$permisoId]->nombre }}</span>
+                                        @else
+                                            <span class="badge bg-danger">Permiso no encontrado</span>
+                                        @endif
+                                    @endforeach
+                                </td>
                             @endif
+                            @if (in_array(11, $permisosUsuario))
+                                <td class="action-buttons">
+                                    <!-- Habilita el botón de editar solo si el usuario tiene el permiso correspondiente -->
 
-                            <td>
-                                @foreach ($userGroup->permisos as $permisoId)
-                                    @if (isset($permisos[$permisoId]))
-                                        <span class="badge bg-secondary">{{ $permisos[$permisoId]->nombre }}</span>
-                                    @else
-                                        <span class="badge bg-danger">Permiso no encontrado</span>
-                                    @endif
-                                @endforeach
-                            </td>
-                            <td class="action-buttons">
-                                <!-- Habilita el botón de editar solo si el usuario tiene el permiso correspondiente -->
-                                @if (in_array(11, $permisosUsuario))
                                     <a href="#" class="btn btn-warning" data-bs-toggle="modal"
                                         data-bs-target="#editUserGroupModal" data-id="{{ $userGroup->id }}"
                                         data-name="{{ $userGroup->nombre }}"
                                         data-permissions="{{ json_encode($userGroup->permisos) }}">
                                         <i class="fas fa-edit"></i> <!-- Ícono de lápiz -->
                                     </a>
-                                @endif
-                            </td>
-                            <td class="action-buttons">
-                                <!-- Habilita el botón de eliminar solo si el usuario tiene el permiso correspondiente -->
-                                @if (in_array(12, $permisosUsuario))
+
+                                </td>
+                            @endif
+                            @if (in_array(12, $permisosUsuario))
+                                <td class="action-buttons">
+                                    <!-- Habilita el botón de eliminar solo si el usuario tiene el permiso correspondiente -->
+
                                     <form action="{{ route('usergroups.destroy', $userGroup->id) }}" method="POST"
                                         style="display:inline;">
                                         @csrf
@@ -68,8 +70,9 @@
                                             <i class="fas fa-trash"></i> <!-- Ícono de basura -->
                                         </button>
                                     </form>
-                                @endif
-                            </td>
+
+                                </td>
+                            @endif
                         </tr>
                     @endforeach
                 </tbody>

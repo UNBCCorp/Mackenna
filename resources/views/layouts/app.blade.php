@@ -36,20 +36,24 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#" id="configLink2">
-                    <i class="fas fa-car"></i> Vehículos
+                    <i class="fas fa-car"></i> Vehíiculos
                     <i class="fas fa-chevron-down toggle-icon" id="toggleIcon2"></i>
                 </a>
-                <ul class="nav hidden" id="configMenu2" style="flex-direction: column;">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('tipovehiculo.index') }}">
-                            <i class="fas fa-car-rear"></i> Grupos
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('marcavehiculo.index') }}">
-                            <i class="fas fa-car"></i> Marcas
-                        </a>
-                    </li>
+                <ul class="nav hidden" id="configMenu2" style="flex-direction: column;">+
+                    @if (in_array('7', $permisosUsuario))
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('tipovehiculo.index') }}">
+                                <i class="fas fa-car-rear"></i> Grupos
+                            </a>
+                        </li>
+                    @endif
+                    @if (in_array('2', $permisosUsuario))
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('marcavehiculo.index') }}">
+                                <i class="fas fa-car"></i> Marcas
+                            </a>
+                        </li>
+                    @endif
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('usergroups.index') }}">
                             <i class="fas fa-car-side"></i> Modelos
@@ -69,16 +73,20 @@
                             <i class="fas fa-user"></i> Usuarios
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('usergroups.index') }}">
-                            <i class="fas fa-user-tag"></i> Roles
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('tarifas.index') }}">
-                            <i class="fas fa-money-bill-wave"></i> Tarifas
-                        </a>
-                    </li>
+                    @if (in_array('10', $permisosUsuario))
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('usergroups.index') }}">
+                                <i class="fas fa-user-tag"></i> Roles
+                            </a>
+                        </li>
+                    @endif
+                    @if (in_array('14', $permisosUsuario))
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('tarifas.index') }}">
+                                <i class="fas fa-money-bill-wave"></i> Tarifas
+                            </a>
+                        </li>
+                    @endif
                 </ul>
             </li>
         </ul>

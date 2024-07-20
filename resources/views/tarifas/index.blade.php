@@ -5,7 +5,7 @@
         <h1 class="flex-grow-1 text-center mb-0">Tarifas</h1>
         <br />
         <!-- Habilita el botón de crear solo si el usuario tiene el permiso correspondiente -->
-        @if (in_array(9, $permisosUsuario))
+        @if (in_array(13, $permisosUsuario))
             <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createTarifaModal">+Crear
                 Tarifa</a>
         @endif
@@ -33,41 +33,45 @@
                 <tbody>
                     @foreach ($tarifas as $tarifa)
                         <tr>
-                            @if (in_array(10, $permisosUsuario))
+                            @if (in_array(14, $permisosUsuario))
                                 <td>{{ $tarifa->id }}</td>
                                 <td>{{ $tarifa->nombre }}</td>
                                 <td>{{ $tarifa->porcentaje }}</td>
-                            @endif
-                            @php
-                                $tipoVehiculoArray = is_array($tarifa->tipo_vehiculo)
-                                    ? $tarifa->tipo_vehiculo
-                                    : json_decode($tarifa->tipo_vehiculo, true);
-                            @endphp
-                            <td>
-                                @foreach ($tipoVehiculoArray as $tipovehiculoId)
-                                    @if (isset($tipovehiculos[$tipovehiculoId]))
-                                        <span
-                                            class="badge bg-secondary">{{ $tipovehiculos[$tipovehiculoId]->nombre }}</span>
-                                    @else
-                                        <span class="badge bg-danger">Grupo no encontrado</span>
-                                    @endif
-                                @endforeach
+                                @php
+                                    $tipoVehiculoArray = is_array($tarifa->tipo_vehiculo)
+                                        ? $tarifa->tipo_vehiculo
+                                        : json_decode($tarifa->tipo_vehiculo, true);
+                                @endphp
+                                <td>
 
-                            </td>
-                            <td class="action-buttons">
-                                <!-- Habilita el botón de editar solo si el usuario tiene el permiso correspondiente -->
-                                @if (in_array(11, $permisosUsuario))
+                                    @foreach ($tipoVehiculoArray as $tipovehiculoId)
+                                        @if (isset($tipovehiculos[$tipovehiculoId]))
+                                            <span
+                                                class="badge bg-secondary">{{ $tipovehiculos[$tipovehiculoId]->nombre }}</span>
+                                        @else
+                                            <span class="badge bg-danger">Grupo no encontrado</span>
+                                        @endif
+                                    @endforeach
+
+                                </td>
+                            @endif
+                            @if (in_array(15, $permisosUsuario))
+                                <td class="action-buttons">
+                                    <!-- Habilita el botón de editar solo si el usuario tiene el permiso correspondiente -->
+
                                     <a href="#" class="btn btn-warning" data-bs-toggle="modal"
                                         data-bs-target="#editTarifaModal" data-id="{{ $tarifa->id }}"
                                         data-name="{{ $tarifa->nombre }}" data-porcentaje="{{ $tarifa->porcentaje }}"
                                         data-tipo_vehiculo="{{ json_encode($tarifa->tipo_vehiculo) }}">
                                         <i class="fas fa-edit"></i> <!-- Ícono de lápiz -->
                                     </a>
-                                @endif
-                            </td>
-                            <td class="action-buttons">
-                                <!-- Habilita el botón de eliminar solo si el usuario tiene el permiso correspondiente -->
-                                @if (in_array(12, $permisosUsuario))
+
+                                </td>
+                            @endif
+                            @if (in_array(16, $permisosUsuario))
+                                <td class="action-buttons">
+                                    <!-- Habilita el botón de eliminar solo si el usuario tiene el permiso correspondiente -->
+
                                     <form action="{{ route('tarifas.destroy', $tarifa->id) }}" method="POST"
                                         style="display:inline;">
                                         @csrf
@@ -76,8 +80,9 @@
                                             <i class="fas fa-trash"></i> <!-- Ícono de basura -->
                                         </button>
                                     </form>
-                                @endif
-                            </td>
+
+                                </td>
+                            @endif
                         </tr>
                     @endforeach
                 </tbody>
