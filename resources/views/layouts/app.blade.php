@@ -36,10 +36,10 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#" id="configLink2">
-                    <i class="fas fa-car"></i> Vehíiculos
+                    <i class="fas fa-car"></i> Vehículos
                     <i class="fas fa-chevron-down toggle-icon" id="toggleIcon2"></i>
                 </a>
-                <ul class="nav hidden" id="configMenu2" style="flex-direction: column;">+
+                <ul class="nav hidden" id="configMenu2" style="flex-direction: column;">
                     @if (in_array('7', $permisosUsuario))
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('tipovehiculo.index') }}">

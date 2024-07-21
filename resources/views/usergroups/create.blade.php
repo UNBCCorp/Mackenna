@@ -6,6 +6,12 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        .hidden {
+            display: none;
+        }
+    </style>
 </head>
 
 <body>
@@ -31,39 +37,54 @@
                             <div class="mb-3">
                                 <label for="permissions" class="form-label">Permisos</label>
                                 @php
-                                    $tipospermisos = \App\Models\Permiso::all();
+                                    $tipospermisos = \App\Models\Permiso::all()->groupBy('modulo');
                                 @endphp
                                 @if (isset($tipospermisos) && $tipospermisos->isNotEmpty())
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="select_all_permissions">
-                                        <label class="form-check-label" for="select_all_permissions">
-                                            Seleccionar todos
-                                        </label>
-
-                                    </div>
-                                    <br />
-                                    <div class="row g-3">
-                                        @foreach ($tipospermisos as $permission)
-                                            <div class="col-md-4">
-                                                <!-- Ajusta el tamaño de la columna según necesites -->
-                                                <div class="form-check">
-                                                    <input class="form-check-input permission-checkbox" type="checkbox"
-                                                        name="permissions[]" value="{{ $permission->id }}"
-                                                        id="permission_{{ $permission->id }}"
-                                                        @if (isset($selectedPermissions) && in_array($permission->id, $selectedPermissions)) checked @endif>
+                                    @foreach ($tipospermisos as $modulo => $permisos)
+                                        <div class="mb-3">
+                                            <div class="d-flex align-items-center">
+                                                <div class="form-check me-3">
+                                                    <input class="form-check-input select_all_module" type="checkbox"
+                                                        id="select_all_{{ $modulo }}"
+                                                        data-module="{{ $modulo }}">
                                                     <label class="form-check-label"
-                                                        for="permission_{{ $permission->id }}">
-                                                        {{ $permission->nombre }}
+                                                        for="select_all_{{ $modulo }}">
+                                                        Módulo {{ $modulo }}
                                                     </label>
                                                 </div>
+                                                <button type="button" class="btn btn-sm btn-secondary ms-2"
+                                                    data-bs-toggle="collapse"
+                                                    data-bs-target="#permissions_{{ $modulo }}"
+                                                    aria-expanded="false"
+                                                    aria-controls="permissions_{{ $modulo }}">
+                                                    <i class="bi bi-chevron-down"></i>
+                                                </button>
                                             </div>
-                                        @endforeach
-                                    </div>
+                                            <div class="mt-2 collapse" id="permissions_{{ $modulo }}">
+                                                <div class="row g-3">
+                                                    @foreach ($permisos as $permission)
+                                                        <div class="col-md-4">
+                                                            <div class="form-check">
+                                                                <input class="form-check-input permission-checkbox"
+                                                                    type="checkbox" name="permissions[]"
+                                                                    value="{{ $permission->id }}"
+                                                                    data-module="{{ $modulo }}"
+                                                                    id="permission_{{ $permission->id }}">
+                                                                <label class="form-check-label"
+                                                                    for="permission_{{ $permission->id }}">
+                                                                    {{ $permission->nombre }}
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
                                 @else
                                     <p>No hay permisos disponibles.</p>
                                 @endif
                             </div>
-
 
                             <div class="text-center pt-1 mb-5 pb-1">
                                 <button class="btn btn-primary btn-block fa-lg mb-3" type="submit">Guardar</button>
@@ -75,53 +96,57 @@
         </div>
     </div>
 
-    <script src="{{ asset('assets/nombre.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            var selectAllCheckbox = document.getElementById('select_all_permissions');
-            var permissionCheckboxes = document.querySelectorAll('.permission-checkbox');
+            var selectAllModuleCheckboxes = document.querySelectorAll('.select_all_module');
 
-            selectAllCheckbox.addEventListener('change', function() {
-                permissionCheckboxes.forEach(function(checkbox) {
-                    checkbox.checked = selectAllCheckbox.checked;
+            selectAllModuleCheckboxes.forEach(function(moduleCheckbox) {
+                moduleCheckbox.addEventListener('change', function() {
+                    var module = this.dataset.module;
+                    var isChecked = this.checked;
+                    document.querySelectorAll(`.permission-checkbox[data-module='${module}']`)
+                        .forEach(function(permissionCheckbox) {
+                            permissionCheckbox.checked = isChecked;
+                        });
                 });
             });
+
+            var permissionCheckboxes = document.querySelectorAll('.permission-checkbox');
 
             permissionCheckboxes.forEach(function(checkbox) {
                 checkbox.addEventListener('change', function() {
-                    if (!checkbox.checked) {
-                        selectAllCheckbox.checked = false;
-                    }
+                    var module = this.dataset.module;
+                    var moduleCheckbox = document.querySelector(
+                        `.select_all_module[data-module='${module}']`);
+                    var allChecked = Array.from(document.querySelectorAll(
+                        `.permission-checkbox[data-module='${module}']`)).every(function(c) {
+                        return c.checked;
+                    });
+                    moduleCheckbox.checked = allChecked;
                 });
             });
 
-            var form = document.querySelector('form');
-            form.addEventListener('submit', function(e) {
-                e.preventDefault();
-                var formData = new FormData(form);
-                var request = new XMLHttpRequest();
-                request.open(form.method, form.action, true);
-                request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-                request.onreadystatechange = function() {
-                    if (this.readyState === 4 && this.status === 200) {
-                        var response = JSON.parse(this.responseText);
-                        if (response.success) {
-                            form.reset();
-                            var modal = bootstrap.Modal.getInstance(document.getElementById(
-                                'createUserGroupModal'));
-                            modal.hide();
-                        } else {
-                            document.getElementById('nameError').textContent = response.errors.name;
-                        }
+            var toggleButtons = document.querySelectorAll('[data-bs-toggle="collapse"]');
+
+            toggleButtons.forEach(function(button) {
+                button.addEventListener('click', function() {
+                    var targetId = this.dataset.bsTarget;
+                    var icon = this.querySelector('i');
+                    var targetElement = document.querySelector(targetId);
+
+                    if (targetElement.classList.contains('show')) {
+                        icon.classList.remove('bi-chevron-up');
+                        icon.classList.add('bi-chevron-down');
+                    } else {
+                        icon.classList.remove('bi-chevron-down');
+                        icon.classList.add('bi-chevron-up');
                     }
-                };
-                request.send(formData);
+                });
             });
         });
     </script>
-
 </body>
 
 </html>
