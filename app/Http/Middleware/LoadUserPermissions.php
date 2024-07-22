@@ -22,14 +22,12 @@ class LoadUserPermissions
             $user = Auth::user();
             $userGroup = UserGroup::find($user->tipo_usuario);
 
-            // Verifica si el grupo de usuarios existe
             if ($userGroup) {
                 $permisosUsuario = $userGroup->permisos ? json_decode($userGroup->permisos, true) : [];
             } else {
                 $permisosUsuario = [];
             }
 
-            // Compartir permisos con todas las vistas
             View::share('permisosUsuario', $permisosUsuario);
         }
 
