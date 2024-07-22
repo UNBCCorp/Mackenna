@@ -46,11 +46,10 @@
                                                         id="togglePassword">
                                                         <i class="fas fa-eye"></i>
                                                     </span>
-
                                                 </div>
                                             </div>
-                                            <div class="error-message text-danger" id="passwordError"></div>
-                                            <a class="text-muted" href="#!">Olvidaste la Password?</a>
+                                            <a class="text-muted" href="#" data-bs-toggle="modal"
+                                                data-bs-target="#forgotPasswordModal">Olvidaste la Contraseña?</a>
                                         </div>
 
                                         <div class="text-center pt-1 mb-5 pb-1">
@@ -72,6 +71,66 @@
             </div>
         </div>
     </section>
+
+    <!-- Modal -->
+    <div class="modal fade" id="forgotPasswordModal" tabindex="-1" aria-labelledby="forgotPasswordModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="forgotPasswordModalLabel">Recuperar Contraseña</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="statusMessage"></div>
+                    <form id="forgotPasswordForm">
+                        @csrf
+                        <div class="form-outline mb-4">
+                            <label class="form-label" for="email">Correo</label>
+                            <input type="email" id="email" name="email" class="form-control"
+                                placeholder="Correo Electronico" required />
+                        </div>
+                        <div class="text-center pt-1 mb-5 pb-1">
+                            <button class="btn btn-primary btn-block fs-lg mb-3" type="submit">Enviar enlace de
+                                recuperación</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('forgotPasswordForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            let form = event.target;
+            let formData = new FormData(form);
+
+            fetch("{{ route('password.email') }}", {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value,
+                    },
+                    body: formData,
+                })
+                .then(response => response.json())
+                .then(data => {
+                    let statusMessage = document.getElementById('statusMessage');
+                    if (data.message) {
+                        statusMessage.innerHTML = `<div class="alert alert-success">${data.message}</div>`;
+                    } else {
+                        statusMessage.innerHTML = `<div class="alert alert-danger">${data.errors.email}</div>`;
+                    }
+                    form.reset();
+                })
+                .catch(error => {
+                    let statusMessage = document.getElementById('statusMessage');
+                    statusMessage.innerHTML =
+                        `<div class="alert alert-danger">Ocurrió un error. Inténtalo de nuevo más tarde.</div>`;
+                });
+        });
+    </script>
+
     <script src="{{ asset('assets/script.login.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
