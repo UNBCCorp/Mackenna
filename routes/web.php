@@ -9,6 +9,8 @@ use App\Http\Controllers\UserGroupController;
 use App\Http\Controllers\TipoVehiculoController;
 use App\Http\Controllers\MarcaVehiculoController;
 use App\Http\Controllers\TarifaController;
+use App\Http\Controllers\PasswordResetController;
+use App\Http\Controllers\TestController;
 // Ruta principal
 Route::get('/', function () {
     return redirect()->route('login'); // Cambia 'login' por el nombre de tu ruta de login
@@ -36,3 +38,8 @@ Route::resource('marcavehiculo', MarcaVehiculoController::class);
 Route::get('/marcavehiculo/{marcaVehiculo}/edit', [MarcaVehiculoController::class, 'edit'])->name('marcavehiculo.edit');
 Route::put('marcavehiculo/{id}', 'MarcavehiculoController@update')->name('marcavehiculo.update');
 Route::resource('tarifas', TarifaController::class);
+Route::get('forgot-password', [PasswordResetController::class, 'showForgotPasswordForm'])->name('password.request');
+Route::post('forgot-password', [PasswordResetController::class, 'sendResetLinkEmail'])->name('password.email');
+Route::get('reset-password/{token}', [PasswordResetController::class, 'showResetPasswordForm'])->name('password.reset');
+Route::post('reset-password', [PasswordResetController::class, 'resetPassword'])->name('password.update');
+Route::get('/send-test-email', [TestController::class, 'sendTestEmail']);
