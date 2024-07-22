@@ -6,9 +6,26 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
     <style>
-        .hidden {
+        .hidden-content {
             display: none;
+        }
+
+        .expand-arrow {
+            cursor: pointer;
+        }
+
+        .expand-arrow i {
+            transition: transform 0.3s;
+        }
+
+        .expand-arrow.collapsed i {
+            transform: rotate(180deg);
+        }
+
+        .permission-group {
+            padding-left: 20px;
         }
     </style>
 </head>
@@ -44,35 +61,33 @@
                                         @foreach ($tipospermisos as $modulo => $permisos)
                                             <div class="d-flex align-items-center">
                                                 <div class="form-check me-3">
-                                                    <input class="form-check-input select_all_module" type="checkbox"
-                                                        id="select_all_{{ $modulo }}"
-                                                        onclick="selectAllPermissions(this)">
+                                                    <input class="form-check-input select_all_module_edit"
+                                                        type="checkbox" id="select_all_edit_{{ $modulo }}"
+                                                        onclick="toggleAllPermissions(this)">
                                                     <label class="form-check-label"
-                                                        for="select_all_{{ $modulo }}">
+                                                        for="select_all_edit_{{ $modulo }}">
                                                         Módulo {{ $modulo }}
                                                     </label>
                                                 </div>
-                                                <button type="button" class="btn btn-sm btn-secondary ms-2"
-                                                    data-bs-toggle="collapse"
-                                                    data-bs-target="#permissions_{{ $modulo }}"
-                                                    aria-expanded="false"
-                                                    aria-controls="permissions_{{ $modulo }}">
-                                                    <i class="bi bi-chevron-down"></i>
-                                                </button>
+                                                <div class="expand-arrow ms-2" data-module="{{ $modulo }}">
+                                                    <i class="bi bi-chevron-down"
+                                                        id="chevron_edit_{{ $modulo }}"></i>
+                                                </div>
                                             </div>
 
                                             <br />
-                                            <div class="row g-3">
+                                            <div class="row g-3 hidden-content permission-group"
+                                                data-module="{{ $modulo }}">
                                                 @foreach ($permisos as $permission)
                                                     <div class="col-md-4">
-                                                        <input class="form-check-input permission-checkbox"
+                                                        <input class="form-check-input permission-checkbox-edit"
                                                             type="checkbox" name="permissions[]"
                                                             value="{{ $permission->id }}"
                                                             data-module="{{ $modulo }}"
-                                                            id="permission_{{ $permission->id }}"
+                                                            id="permission_edit_{{ $permission->id }}"
                                                             @if (isset($selectedPermissions) && in_array($permission->id, $selectedPermissions)) checked @endif>
                                                         <label class="form-check-label"
-                                                            for="permission_{{ $permission->id }}">
+                                                            for="permission_edit_{{ $permission->id }}">
                                                             {{ $permission->nombre }}
                                                         </label>
                                                     </div>
@@ -99,33 +114,34 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            var selectAllCheckboxes = document.querySelectorAll('.select_all_module');
-            var permissionCheckboxes = document.querySelectorAll('.permission-checkbox');
+            var selectAllCheckboxesEdit = document.querySelectorAll('.select_all_module_edit');
+            var permissionCheckboxesEdit = document.querySelectorAll('.permission-checkbox-edit');
 
-            function updateSelectAllCheckboxState(module) {
-                var moduleCheckboxes = document.querySelectorAll(`.permission-checkbox[data-module="${module}"]`);
+            function updateSelectAllCheckboxStateEdit(module) {
+                var moduleCheckboxes = document.querySelectorAll(
+                    `.permission-checkbox-edit[data-module="${module}"]`);
                 var allChecked = Array.from(moduleCheckboxes).every(cb => cb.checked);
-                var selectAllCheckbox = document.getElementById(`select_all_${module}`);
+                var selectAllCheckbox = document.getElementById(`select_all_edit_${module}`);
                 if (selectAllCheckbox) {
                     selectAllCheckbox.checked = allChecked;
                 }
             }
 
-            selectAllCheckboxes.forEach(function(selectAllCheckbox) {
+            selectAllCheckboxesEdit.forEach(function(selectAllCheckbox) {
                 selectAllCheckbox.addEventListener('change', function() {
                     var module = this.dataset.module;
                     var moduleCheckboxes = document.querySelectorAll(
-                        `.permission-checkbox[data-module="${module}"]`);
+                        `.permission-checkbox-edit[data-module="${module}"]`);
                     moduleCheckboxes.forEach(function(checkbox) {
                         checkbox.checked = selectAllCheckbox.checked;
                     });
                 });
             });
 
-            permissionCheckboxes.forEach(function(permissionCheckbox) {
+            permissionCheckboxesEdit.forEach(function(permissionCheckbox) {
                 permissionCheckbox.addEventListener('change', function() {
                     var module = this.dataset.module;
-                    updateSelectAllCheckboxState(module);
+                    updateSelectAllCheckboxStateEdit(module);
                 });
             });
 
@@ -142,17 +158,44 @@
                 document.getElementById('edit_name').value = name;
 
                 var selectedPermissions = JSON.parse(permissions || '[]').map(Number);
-                permissionCheckboxes.forEach(function(checkbox) {
+                permissionCheckboxesEdit.forEach(function(checkbox) {
                     checkbox.checked = selectedPermissions.includes(parseInt(checkbox.value));
                 });
 
-                var modules = Array.from(new Set(Array.from(permissionCheckboxes).map(cb => cb.dataset
+                var modules = Array.from(new Set(Array.from(permissionCheckboxesEdit).map(cb => cb.dataset
                     .module)));
                 modules.forEach(function(module) {
-                    updateSelectAllCheckboxState(module);
+                    updateSelectAllCheckboxStateEdit(module);
+                });
+            });
+
+            const expandArrows = document.querySelectorAll('.expand-arrow');
+
+            expandArrows.forEach((arrow) => {
+                arrow.addEventListener('click', function() {
+                    const module = arrow.getAttribute('data-module');
+                    const permissionGroup = document.querySelector(
+                        `.permission-group[data-module="${module}"]`);
+                    const chevronIcon = document.getElementById(`chevron_edit_${module}`);
+
+                    if (permissionGroup.classList.contains('hidden-content')) {
+                        permissionGroup.classList.remove('hidden-content');
+                        chevronIcon.classList.add('bi-chevron-up');
+                        chevronIcon.classList.remove('bi-chevron-down');
+                    } else {
+                        permissionGroup.classList.add('hidden-content');
+                        chevronIcon.classList.add('bi-chevron-down');
+                        chevronIcon.classList.remove('bi-chevron-up');
+                    }
                 });
             });
         });
+
+        function toggleAllPermissions(checkbox) {
+            const module = checkbox.getAttribute('id').replace('select_all_edit_', '');
+            const checkboxes = document.querySelectorAll(`input.permission-checkbox-edit[data-module="${module}"]`);
+            checkboxes.forEach(cb => cb.checked = checkbox.checked);
+        }
     </script>
 </body>
 

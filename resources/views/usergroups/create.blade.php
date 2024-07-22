@@ -11,6 +11,22 @@
         .hidden {
             display: none;
         }
+
+        .arrow {
+            cursor: pointer;
+        }
+
+        .arrow i {
+            transition: transform 0.3s;
+        }
+
+        .arrow.down i {
+            transform: rotate(180deg);
+        }
+
+        .permissions-list {
+            padding-left: 20px;
+        }
     </style>
 </head>
 
@@ -52,15 +68,11 @@
                                                         Módulo {{ $modulo }}
                                                     </label>
                                                 </div>
-                                                <button type="button" class="btn btn-sm btn-secondary ms-2"
-                                                    data-bs-toggle="collapse"
-                                                    data-bs-target="#permissions_{{ $modulo }}"
-                                                    aria-expanded="false"
-                                                    aria-controls="permissions_{{ $modulo }}">
-                                                    <i class="bi bi-chevron-down"></i>
-                                                </button>
+                                                <div class="arrow ms-2" data-module="{{ $modulo }}">
+                                                    <i class="bi bi-chevron-down" id="chevron_{{ $modulo }}"></i>
+                                                </div>
                                             </div>
-                                            <div class="mt-2 collapse" id="permissions_{{ $modulo }}">
+                                            <div class="mt-2 hidden permissions-list" data-module="{{ $modulo }}">
                                                 <div class="row g-3">
                                                     @foreach ($permisos as $permission)
                                                         <div class="col-md-4">
@@ -85,6 +97,7 @@
                                     <p>No hay permisos disponibles.</p>
                                 @endif
                             </div>
+
 
                             <div class="text-center pt-1 mb-5 pb-1">
                                 <button class="btn btn-primary btn-block fa-lg mb-3" type="submit">Guardar</button>
@@ -127,21 +140,23 @@
                     moduleCheckbox.checked = allChecked;
                 });
             });
+            const arrows = document.querySelectorAll('.arrow');
 
-            var toggleButtons = document.querySelectorAll('[data-bs-toggle="collapse"]');
+            arrows.forEach((arrow) => {
+                arrow.addEventListener('click', function() {
+                    const module = arrow.getAttribute('data-module');
+                    const permissionsList = document.querySelector(
+                        `.permissions-list[data-module="${module}"]`);
+                    const chevronIcon = document.getElementById(`chevron_${module}`);
 
-            toggleButtons.forEach(function(button) {
-                button.addEventListener('click', function() {
-                    var targetId = this.dataset.bsTarget;
-                    var icon = this.querySelector('i');
-                    var targetElement = document.querySelector(targetId);
-
-                    if (targetElement.classList.contains('show')) {
-                        icon.classList.remove('bi-chevron-up');
-                        icon.classList.add('bi-chevron-down');
+                    if (permissionsList.classList.contains('hidden')) {
+                        permissionsList.classList.remove('hidden');
+                        chevronIcon.classList.add('bi-chevron-up');
+                        chevronIcon.classList.remove('bi-chevron-down');
                     } else {
-                        icon.classList.remove('bi-chevron-down');
-                        icon.classList.add('bi-chevron-up');
+                        permissionsList.classList.add('hidden');
+                        chevronIcon.classList.add('bi-chevron-down');
+                        chevronIcon.classList.remove('bi-chevron-up');
                     }
                 });
             });
