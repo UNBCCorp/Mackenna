@@ -92,10 +92,11 @@
         </ul>
     </div>
     <!-- User Profile Dropdown -->
+    <!-- User Profile Dropdown -->
     <div class="dropdown profile-dropdown">
         @if (Auth::check())
             <button class="btn btn-outline-danger dropdown-toggle" type="button" id="dropdownMenuButton"
-                data-bs-toggle="dropdown" aria-expanded="false">
+                data-bs-toggle="dropdown">
                 {{ Auth::user()->name }}
             </button>
         @else
@@ -108,11 +109,11 @@
                     @csrf
                 </form>
                 <a class="dropdown-item" href="#"
-                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Cerrar
-                    Sesión</a>
+                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Cerrar Sesión</a>
             </li>
         </ul>
     </div>
+
     <div class="content">
         <div class="container mt-4">
             @yield('content') <!-- Aquí se renderizará el contenido de la sección -->
@@ -122,7 +123,9 @@
     @stack('modals')
     @livewireScripts
 </body>
-
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+    integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous">
+</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
     integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous">
@@ -148,6 +151,11 @@
             event.preventDefault();
             configMenu2.classList.toggle('hidden');
             toggleIcon2.classList.toggle('rotate');
+        });
+        // Ensure that dropdowns are initialized
+        var dropdowns = document.querySelectorAll('.dropdown-toggle');
+        dropdowns.forEach(function(dropdown) {
+            new bootstrap.Dropdown(dropdown);
         });
     });
 </script>

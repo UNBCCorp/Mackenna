@@ -154,7 +154,7 @@
                 var permissions = button.getAttribute('data-permissions');
 
                 var form = document.getElementById('editUserGroupForm');
-                form.action = form.action.replace('usergroup_id', id);
+                form.action = `/usergroups/${id}`; // Update the form action
                 document.getElementById('edit_name').value = name;
 
                 var selectedPermissions = JSON.parse(permissions || '[]').map(Number);

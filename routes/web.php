@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Middleware\LoadUserPermissions;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserGroupController;
 use App\Http\Controllers\TipoVehiculoController;
@@ -17,6 +18,7 @@ Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
     'verified',
+    LoadUserPermissions::class,
 ])->group(function () {
     Route::get('/dashboard', function () {
         return view('dashboard');
