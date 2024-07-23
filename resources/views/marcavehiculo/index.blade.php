@@ -8,11 +8,11 @@
         <!-- Habilita el botón de crear solo si el usuario tiene el permiso correspondiente -->
         @if (in_array(1, $permisosUsuario))
             <!-- Cambia 8 por el ID del permiso necesario -->
-            <a href="" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createMarcavehiculoModal">+Crear
-                Marca</a>
+            <div class="d-flex justify-content-end">
+                <a href="" class="btn btn-primary" data-bs-toggle="modal"
+                    data-bs-target="#createMarcavehiculoModal">+Crear Marca</a>
+            </div>
         @endif
-
-        <a href="{{ route('tipovehiculo.index') }}" class="btn btn-outline-secondary">Grupo Vehículos</a>
 
         <form action="{{ route('marcavehiculo.index') }}" method="GET" class="mb-3">
             <br />

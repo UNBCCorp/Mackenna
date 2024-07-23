@@ -7,8 +7,11 @@
 
         <!-- Habilita el botón de crear solo si el usuario tiene el permiso correspondiente -->
         @if (in_array(5, $permisosUsuario))
-            <a href="" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createTipovehiculoModal">+Crear
-                Grupo</a>
+            <div class="d-flex justify-content-end">
+                <a href="" class="btn btn-primary" data-bs-toggle="modal"
+                    data-bs-target="#createTipovehiculoModal">+Crear
+                    Grupo</a>
+            </div>
         @endif
 
         <form action="{{ route('tipovehiculo.index') }}" method="GET" class="mb-3">

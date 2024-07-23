@@ -6,8 +6,10 @@
         <br />
         <!-- Habilita el botón de crear solo si el usuario tiene el permiso correspondiente -->
         @if (in_array(13, $permisosUsuario))
-            <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createTarifaModal">+Crear
-                Tarifa</a>
+            <div class="d-flex justify-content-end">
+                <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createTarifaModal">+Crear
+                    Tarifa</a>
+            </div>
         @endif
         <br />
         <form action="{{ route('tarifas.index') }}" method="GET" class="mb-3">

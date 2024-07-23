@@ -1,13 +1,16 @@
 @extends('layouts.app')
 
+
 @section('content')
     <div class="container">
         <h1 class="flex-grow-1 text-center mb-0">Roles</h1>
         <br />
         <!-- Habilita el botón de crear solo si el usuario tiene el permiso correspondiente -->
         @if (in_array(9, $permisosUsuario))
-            <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createUserGroupModal">+Crear
-                Rol</a>
+            <div class="d-flex justify-content-end">
+                <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createUserGroupModal">+Crear
+                    Rol</a>
+            </div>
         @endif
         <br />
         <form action="{{ route('usergroups.index') }}" method="GET" class="mb-3">

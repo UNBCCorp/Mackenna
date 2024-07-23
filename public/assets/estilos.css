@@ -137,4 +137,14 @@ body {
 .toggle-icon.rotate {
   transform: rotate(180deg) !important;
 }
+.modal-backdrop {
+  background-color: rgba(0, 0, 0, 0.5) !important;
+  /* Ajusta el valor de opacidad aquí */
+}
+
+/* Opcional: Ajusta la opacidad del contenido del modal si es necesario */
+.modal-content {
+  background-color: rgba(255, 255, 255, 0.9);
+  /* Ajusta el valor de opacidad aquí */
+}
 
