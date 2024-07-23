@@ -20,27 +20,32 @@
                         <div class="row g-0">
                             <div class="col-lg-12">
                                 <div class="card-body p-md-5 mx-md-4">
-
                                     <div class="text-center">
                                         <img src="{{ asset('assets/logo.jpg') }}" style="width: 555px; height: auto;"
                                             alt="logo">
                                     </div>
-
                                     <form action="{{ route('login') }}" method="POST" id="loginForm">
                                         @csrf
                                         <br />
                                         <div class="form-outline mb-4">
                                             <label class="form-label" for="email">Correo</label>
-                                            <input type="email" id="email" name="email" class="form-control"
-                                                placeholder="Correo Electronico" required />
+                                            <input type="email" id="email" name="email"
+                                                class="form-control @error('email') is-invalid @enderror"
+                                                placeholder="Correo Electronico" value="{{ old('email') }}" required />
+                                            @error('email')
+                                                <div class="text-danger">Error: correo o contraseña inválidos</div>
+                                            @enderror
                                             <div class="error-message text-danger" id="emailError"></div>
                                         </div>
-
                                         <div class="form-outline mb-4">
                                             <label class="form-label" for="password">Password</label>
                                             <div class="input-group">
                                                 <input type="password" name="password" id="password"
-                                                    class="form-control" required />
+                                                    class="form-control @error('password') is-invalid @enderror"
+                                                    required />
+                                                @error('password')
+                                                    <div class="text-danger">Error: correo o contraseña inválidos</div>
+                                                @enderror
                                                 <div class="input-group-append">
                                                     <span class="input-group-text custom-toggle-password"
                                                         id="togglePassword">
@@ -51,18 +56,15 @@
                                             <a class="text-muted" href="#" data-bs-toggle="modal"
                                                 data-bs-target="#forgotPasswordModal">Olvidaste la Contraseña?</a>
                                         </div>
-
                                         <div class="text-center pt-1 mb-5 pb-1">
                                             <button class="btn btn-primary btn-block fs-lg mb-3"
                                                 type="submit">Ingresar</button>
                                         </div>
-
                                         <div class="d-flex align-items-center justify-content-center pb-4">
                                             <p class="mb-0 me-2">No tienes cuenta?</p>
                                             <a href="{{ route('register') }}" class="btn btn-danger">Crear Cuenta</a>
                                         </div>
                                     </form>
-
                                 </div>
                             </div>
                         </div>
