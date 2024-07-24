@@ -69,7 +69,12 @@
                 </a>
                 <ul class="nav hidden" id="configMenu" style="flex-direction: column;">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" href="{{ route('users.index') }}">
+                            <i class="fas fa-user"></i> Clientes
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('users.index') }}">
                             <i class="fas fa-user"></i> Usuarios
                         </a>
                     </li>
@@ -109,7 +114,8 @@
                     @csrf
                 </form>
                 <a class="dropdown-item" href="#"
-                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Cerrar Sesión</a>
+                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Cerrar
+                    Sesión</a>
             </li>
         </ul>
     </div>

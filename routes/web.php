@@ -11,6 +11,7 @@ use App\Http\Controllers\MarcaVehiculoController;
 use App\Http\Controllers\TarifaController;
 use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\TestController;
+use App\Http\Controllers\UserController;
 // Ruta principal
 Route::get('/', function () {
     return redirect()->route('login'); // Cambia 'login' por el nombre de tu ruta de login
@@ -43,3 +44,5 @@ Route::post('forgot-password', [PasswordResetController::class, 'sendResetLinkEm
 Route::get('reset-password/{token}', [PasswordResetController::class, 'showResetPasswordForm'])->name('password.reset');
 Route::post('reset-password', [PasswordResetController::class, 'resetPassword'])->name('password.update');
 Route::get('/send-test-email', [TestController::class, 'sendTestEmail']);
+Route::resource('users', UserController::class);
+Route::get('/users/data/{id}', [UserController::class, 'getUserData']);
