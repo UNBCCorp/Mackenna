@@ -12,6 +12,8 @@ use App\Http\Controllers\TarifaController;
 use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ClienteController;
+use App\Http\Controllers\ValidatorClienteController;
 // Ruta principal
 Route::get('/', function () {
     return redirect()->route('login'); // Cambia 'login' por el nombre de tu ruta de login
@@ -46,3 +48,7 @@ Route::post('reset-password', [PasswordResetController::class, 'resetPassword'])
 Route::get('/send-test-email', [TestController::class, 'sendTestEmail']);
 Route::resource('users', UserController::class);
 Route::get('/users/data/{id}', [UserController::class, 'getUserData']);
+Route::get('clientes', [ClienteController::class, 'index'])->name('clientes.index');
+Route::get('clientes/create', [ClienteController::class, 'create'])->name('clientes.create');
+Route::post('clientes/store', [ClienteController::class, 'store'])->name('clientes.store');
+Route::get('clientes/validados', [ValidatorClienteController::class, 'index'])->name('clientes2.validados');
