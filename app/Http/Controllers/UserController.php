@@ -80,7 +80,7 @@ class UserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'tipo_usuario' => $request->tipo_usuario, // Aquí verifica que 'tipo_usuario' sea un campo válido en la tabla 'users'
-            'estado' => $request->get('estado', 'activo'),
+            'estado' => $request->get('estado', 'Activo'),
         ]);
 
         if ($user->save()) {
@@ -122,6 +122,7 @@ class UserController extends Controller
 
 
 
+
     /**
      * Show the form for editing the specified user.
      */
@@ -145,7 +146,7 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $user->name = $request->get('name');
         $user->email = $request->get('email');
-        if ($request->filled('password')) {
+        if ($request->filled('password') && $request->get('password') !== '') {
             $user->password = Hash::make($request->get('password'));
         }
         $user->apellido = $request->get('apellido');

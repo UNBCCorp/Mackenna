@@ -35,14 +35,14 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($users as $userGroup)
+                    @foreach ($users as $user)
                         <tr>
                             @if (in_array(10, $permisosUsuario))
-                                <td>{{ $userGroup->id }}</td>
-                                <td>{{ $userGroup->name }}</td>
-                                <td>{{ $userGroup->numero_documento }}</td>
-                                <td>{{ $userGroup->numero_telefonico }}</td>
-                                <td>{{ $userGroup->email }}</td>
+                                <td>{{ $user->id }}</td>
+                                <td>{{ $user->name }}</td>
+                                <td>{{ $user->numero_documento }}</td>
+                                <td>{{ $user->numero_telefonico }}</td>
+                                <td>{{ $user->email }}</td>
                                 <td>
 
                                 </td>
@@ -51,7 +51,7 @@
                                 <td class="action-buttons">
                                     <!-- Habilita el botón de editar solo si el usuario tiene el permiso correspondiente -->
                                     <a href="#" class="btn btn-info" data-bs-toggle="modal"
-                                        data-bs-target="#verUsersModal" data-id="{{ $userGroup->id }}">
+                                        data-bs-target="#verUsersModal" data-id="{{ $user->id }}">
                                         <i class="fas fa-eye"></i>
                                     </a>
 
@@ -61,10 +61,17 @@
                                 <td class="action-buttons">
                                     <!-- Habilita el botón de editar solo si el usuario tiene el permiso correspondiente -->
                                     <a href="#" class="btn btn-warning" data-bs-toggle="modal"
-                                        data-bs-target="#editUsersModal" data-id="{{ $userGroup->id }}"
-                                        data-name="{{ $userGroup->name }}">
-                                        <i class="fas fa-edit"></i> <!-- Ícono de lápiz -->
+                                        data-bs-target="#editUsersModal" data-id="{{ $user->id }}"
+                                        data-name="{{ $user->name }}" data-estado="{{ $user->estado }}"
+                                        data-apellido="{{ $user->apellido }}"
+                                        data-tipo-documento="{{ $user->tipo_documento }}"
+                                        data-tipo-usuario="{{ $user->tipo_usuario }}"
+                                        data-numero-documento="{{ $user->numero_documento }}"
+                                        data-numero-telefonico="{{ $user->numero_telefonico }}"
+                                        data-email="{{ $user->email }}">
+                                        <i class="fas fa-edit"></i>
                                     </a>
+
                                 </td>
                             @endif
                             @if (in_array(12, $permisosUsuario))
@@ -72,7 +79,7 @@
                                     <!-- Habilita el botón de eliminar solo si el usuario tiene el permiso correspondiente -->
                                     <button type="button" class="btn btn-danger" data-bs-toggle="modal"
                                         data-bs-target="#confirmDeleteModal"
-                                        data-action="{{ route('usergroups.destroy', $userGroup->id) }}">
+                                        data-action="{{ route('users.destroy', $user->id) }}">
                                         <i class="fas fa-trash"></i> <!-- Ícono de basura -->
                                     </button>
                                 </td>
@@ -161,6 +168,34 @@
                             }
                         })
                         .catch(error => console.error('Error al obtener los datos del usuario:', error));
+                });
+            }
+            var editUsersModal = document.getElementById('editUsersModal');
+            if (editUsersModal) {
+                editUsersModal.addEventListener('show.bs.modal', function(event) {
+                    var button = event.relatedTarget;
+                    var Tipousuario = button.getAttribute('data-tipo-usuario');
+                    var userId = button.getAttribute('data-id');
+                    var userName = button.getAttribute('data-name');
+                    var userApellido = button.getAttribute('data-apellido');
+                    var userTipoDocumento = button.getAttribute('data-tipo-documento');
+                    var userNumeroDocumento = button.getAttribute('data-numero-documento');
+                    var userNumeroTelefonico = button.getAttribute('data-numero-telefonico');
+                    var userEmail = button.getAttribute('data-email');
+                    var userEstado = button.getAttribute('data-estado');
+
+                    var form = document.getElementById('editUsersForm');
+                    form.action = `/users/${userId}`; // Actualiza la acción del formulario
+
+                    // Actualiza los campos del formulario
+                    form.querySelector('select[name="tipo_usuario"]').value = Tipousuario;
+                    form.querySelector('select[name="estado"]').value = userEstado;
+                    form.querySelector('input[name="name"]').value = userName;
+                    form.querySelector('input[name="apellido"]').value = userApellido;
+                    form.querySelector('select[name="tipo_documento"]').value = userTipoDocumento;
+                    form.querySelector('input[name="numero_documento"]').value = userNumeroDocumento;
+                    form.querySelector('input[name="numero_telefonico"]').value = userNumeroTelefonico;
+                    form.querySelector('input[name="email"]').value = userEmail;
                 });
             }
         });

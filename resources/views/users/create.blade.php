@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 </head>
 
@@ -158,7 +159,33 @@
             </div>
         </div>
     </div>
-    <script src="{{ asset('assets/script-register.js') }}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const togglePassword1 = document.getElementById('togglePassword1');
+            const togglePassword2 = document.getElementById('togglePassword2');
+            const passwordInput1 = document.getElementById('password');
+            const passwordInput2 = document.getElementById('confirmPassword');
+
+            function togglePasswordVisibility(input, icon) {
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    icon.innerHTML = '<i class="fas fa-eye-slash"></i>';
+                } else {
+                    input.type = 'password';
+                    icon.innerHTML = '<i class="fas fa-eye"></i>';
+                }
+            }
+
+            togglePassword1.addEventListener('click', () => {
+                togglePasswordVisibility(passwordInput1, togglePassword1);
+            });
+
+            togglePassword2.addEventListener('click', () => {
+                togglePasswordVisibility(passwordInput2, togglePassword2);
+            });
+        });
+    </script>
+    <script src="{{ asset('assets/validation-script.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
 

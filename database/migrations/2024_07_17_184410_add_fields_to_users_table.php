@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('numero_documento')->nullable();
             $table->string('numero_telefonico')->nullable();
             $table->string('tipo_usuario')->nullable();
-            $table->string('estado')->default('activo'); // Puedes cambiar el valor predeterminado si lo deseas
+            $table->string('estado')->default('Activo'); // Puedes cambiar el valor predeterminado si lo deseas
         });
     }
 
