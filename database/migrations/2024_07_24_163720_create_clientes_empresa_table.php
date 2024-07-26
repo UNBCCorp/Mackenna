@@ -46,6 +46,7 @@ class CreateClientesEmpresaTable extends Migration
             $table->string('documento');
             $table->string('documento2');
             $table->string('documento3');
+            $table->string('estado_cliente');
             $table->timestamps();
         });
     }

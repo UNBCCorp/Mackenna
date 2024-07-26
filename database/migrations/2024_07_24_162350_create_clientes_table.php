@@ -58,6 +58,7 @@ class CreateClientesTable extends Migration
             $table->string('consentimiento');
             $table->string('inhabilidades');
             $table->string('idiomas');
+            $table->string('estado_cliente');
             $table->timestamps();
         });
     }

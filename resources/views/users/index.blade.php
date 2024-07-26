@@ -147,11 +147,17 @@
                                 // Actualiza los elementos del modal con los datos del usuario
                                 document.getElementById('viewUserId').textContent = data.id;
                                 document.getElementById('viewUserName').textContent = data.name;
+                                document.getElementById('viewUserLastname').textContent = data.apellido;
+                                document.getElementById('viewUserTipoDocumento').textContent = data
+                                    .tipo_documento;
                                 document.getElementById('viewUserNumeroDocumento').textContent = data
                                     .numero_documento;
                                 document.getElementById('viewUserNumeroTelefonico').textContent = data
                                     .numero_telefonico;
                                 document.getElementById('viewUserEmail').textContent = data.email;
+                                document.getElementById('viewUserTipoUsuario').textContent = data
+                                    .tipo_usuario;
+                                document.getElementById('viewUserEstado').textContent = data.estado;
                             }
                         })
                         .catch(error => console.error('Error al obtener los datos del usuario:', error));

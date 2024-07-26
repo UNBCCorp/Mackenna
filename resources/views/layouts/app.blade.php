@@ -70,17 +70,17 @@
                 <ul class="nav hidden" id="configMenu" style="flex-direction: column;">
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('clientes.index') }}">
-                            <i class="fas fa-user"></i> Clientes
+                            <i class="fas fa-users"></i> Clientes Particulares
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('clientes2.validados') }}">
-                            <i class="fas fa-user"></i> Validador Clientes
+                            <i class="fas fa-user-alt"></i> Clientes Empresa
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('users.index') }}">
-                            <i class="fas fa-user"></i> Usuarios
+                            <i class="fas fa-user-cog"></i> Usuarios
                         </a>
                     </li>
                     @if (in_array('10', $permisosUsuario))
