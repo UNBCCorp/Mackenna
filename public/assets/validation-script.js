@@ -80,15 +80,5 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    togglePassword1.addEventListener('click', function () {
-        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-        passwordInput.setAttribute('type', type);
-        this.querySelector('i').classList.toggle('fa-eye-slash');
-    });
-
-    togglePassword2.addEventListener('click', function () {
-        const type = confirmPasswordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-        confirmPasswordInput.setAttribute('type', type);
-        this.querySelector('i').classList.toggle('fa-eye-slash');
-    });
+   
 });

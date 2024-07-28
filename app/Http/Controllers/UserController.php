@@ -146,7 +146,7 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $user->name = $request->get('name');
         $user->email = $request->get('email');
-        if ($request->filled('password') && $request->get('password') !== '') {
+        if ($request->filled('password')) {
             $user->password = Hash::make($request->get('password'));
         }
         $user->apellido = $request->get('apellido');

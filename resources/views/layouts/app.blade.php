@@ -78,11 +78,13 @@
                             <i class="fas fa-user-alt"></i> Clientes Empresa
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('users.index') }}">
-                            <i class="fas fa-user-cog"></i> Usuarios
-                        </a>
-                    </li>
+                    @if (in_array('17', $permisosUsuario))
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('users.index') }}">
+                                <i class="fas fa-user-cog"></i> Usuarios
+                            </a>
+                        </li>
+                    @endif
                     @if (in_array('10', $permisosUsuario))
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('usergroups.index') }}">

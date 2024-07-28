@@ -5,7 +5,7 @@
         <h1 class="flex-grow-1 text-center mb-0">Usuarios</h1>
         <br />
         <!-- Habilita el botón de crear solo si el usuario tiene el permiso correspondiente -->
-        @if (in_array(9, $permisosUsuario))
+        @if (in_array(18, $permisosUsuario))
             <div class="d-flex justify-content-end">
                 <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createUsersModal">+Crear
                     Usuarios</a>
@@ -37,7 +37,7 @@
                 <tbody>
                     @foreach ($users as $user)
                         <tr>
-                            @if (in_array(10, $permisosUsuario))
+                            @if (in_array(17, $permisosUsuario))
                                 <td>{{ $user->id }}</td>
                                 <td>{{ $user->name }}</td>
                                 <td>{{ $user->numero_documento }}</td>
@@ -57,7 +57,7 @@
 
                                 </td>
                             @endif
-                            @if (in_array(11, $permisosUsuario))
+                            @if (in_array(19, $permisosUsuario))
                                 <td class="action-buttons">
                                     <!-- Habilita el botón de editar solo si el usuario tiene el permiso correspondiente -->
                                     <a href="#" class="btn btn-warning" data-bs-toggle="modal"
@@ -74,7 +74,7 @@
 
                                 </td>
                             @endif
-                            @if (in_array(12, $permisosUsuario))
+                            @if (in_array(20, $permisosUsuario))
                                 <td class="action-buttons">
                                     <!-- Habilita el botón de eliminar solo si el usuario tiene el permiso correspondiente -->
                                     <button type="button" class="btn btn-danger" data-bs-toggle="modal"
