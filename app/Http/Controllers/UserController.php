@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\UserGroup;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -64,9 +65,9 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'apellido' => 'required|string|max:255',
             'tipo_documento' => 'required|integer|exists:tipo_documento,id',
-            'tipo_usuario' => 'required|integer|exists:user_groups,id', // Aquí verifica que 'user_groups' sea correcto
-            'numero_documento' => 'required|string|max:255',
-            'numero_telefonico' => 'required|string|max:15',
+            'tipo_usuario' => 'required|integer|exists:user_groups,id',
+            'numero_documento' => 'required|digits:10',
+            'numero_telefonico' => 'required|digits:10',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
         ]);
@@ -79,7 +80,7 @@ class UserController extends Controller
             'numero_telefonico' => $request->numero_telefonico,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'tipo_usuario' => $request->tipo_usuario, // Aquí verifica que 'tipo_usuario' sea un campo válido en la tabla 'users'
+            'tipo_usuario' => $request->tipo_usuario,
             'estado' => $request->get('estado', 'Activo'),
         ]);
 
@@ -89,6 +90,7 @@ class UserController extends Controller
             return redirect()->back()->with('error', 'Failed to create user');
         }
     }
+
 
 
     /**
@@ -137,24 +139,46 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request->validate([
+        // Obtener el usuario actual para comparación
+        $user = User::findOrFail($id);
+
+        // Validar los datos de entrada
+        $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email,' . $id,
+            'email' => [
+                'string',
+                'email',
+                'max:255',
+                // Solo agregar la regla unique si el email ha cambiado
+                $request->input('email') !== $user->email ? 'unique:users,email' : '',
+            ],
             'password' => 'nullable|string|min:8|confirmed',
+            'apellido' => 'required|string|max:255',
+            'tipo_documento' => 'required|integer|exists:tipo_documento,id',
+            'tipo_usuario' => 'required|integer|exists:user_groups,id',
+            'numero_documento' => 'required|digits:10',
+            'numero_telefonico' => 'required|digits:10',
         ]);
 
-        $user = User::findOrFail($id);
-        $user->name = $request->get('name');
-        $user->email = $request->get('email');
-        if ($request->filled('password')) {
-            $user->password = Hash::make($request->get('password'));
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput()->with('editUserModal', true);
         }
-        $user->apellido = $request->get('apellido');
-        $user->tipo_documento = $request->get('tipo_documento');
-        $user->numero_documento = $request->get('numero_documento');
-        $user->numero_telefonico = $request->get('numero_telefonico');
-        $user->tipo_usuario = $request->get('tipo_usuario');
-        $user->estado = $request->get('estado');
+
+        // Actualizar los campos del usuario
+        $user->name = $request->input('name');
+        $user->email = $request->input('email');
+
+        // Solo actualizar la contraseña si se ha proporcionado una nueva
+        if ($request->filled('password')) {
+            $user->password = Hash::make($request->input('password'));
+        }
+
+        $user->apellido = $request->input('apellido');
+        $user->tipo_documento = $request->input('tipo_documento');
+        $user->numero_documento = $request->input('numero_documento');
+        $user->numero_telefonico = $request->input('numero_telefonico');
+        $user->tipo_usuario = $request->input('tipo_usuario');
+        $user->estado = $request->input('estado');
 
         $user->save();
 

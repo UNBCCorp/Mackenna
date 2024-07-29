@@ -11,7 +11,7 @@
 <body>
     <div class="container">
         <div class="modal fade" id="createTarifaModal" tabindex="-1" aria-labelledby="createTarifaModalLabel"
-            aria-hidden="true">
+            aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">

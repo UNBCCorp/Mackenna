@@ -11,7 +11,7 @@
 <body>
     <div class="container">
         <div class="modal fade" id="createMarcavehiculoModal" tabindex="-1"
-            aria-labelledby="createMarcavehiculoModalLabel" aria-hidden="true">
+            aria-labelledby="createMarcavehiculoModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">

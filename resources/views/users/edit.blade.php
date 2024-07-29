@@ -12,7 +12,7 @@
 <body>
     <div class="container">
         <div class="modal fade" id="editUsersModal" tabindex="-1" aria-labelledby="editUsersModalLabel"
-            aria-hidden="true">
+            aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -190,6 +190,13 @@
                     .catch(error => console.error('Error al obtener los datos del usuario:', error));
             });
         });
+    </script>
+    <script>
+        @if ($errors->any() || session('editUserModal'))
+            $(document).ready(function() {
+                $('#editUsersModal').modal('show');
+            });
+        @endif
     </script>
 </body>
 

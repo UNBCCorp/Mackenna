@@ -33,7 +33,7 @@
 <body>
     <div class="container">
         <div class="modal fade" id="createUserGroupModal" tabindex="-1" aria-labelledby="createUserGroupModalLabel"
-            aria-hidden="true">
+            aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
