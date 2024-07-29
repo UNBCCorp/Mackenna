@@ -14,12 +14,11 @@
         @endif
         <br />
 
-        <form action="{{ route('tarifas.index') }}" method="GET" class="mb-3">
+        <form id="search-form" action="{{ route('tarifas.index') }}" method="GET" class="mb-3">
             <br />
             <div class="input-group">
-                <input type="text" name="search" class="form-control" placeholder="Buscar por nombre..."
-                    value="{{ $search }}">
-                <button type="submit" class="btn btn-outline-secondary">Buscar</button>
+                <input type="text" id="search-input" name="search" class="form-control"
+                    placeholder="Buscar por nombre..." value="{{ $search }}">
             </div>
         </form>
 
@@ -119,6 +118,20 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            $('#search-input').on('input', function() {
+                var search = $(this).val();
+                $.ajax({
+                    url: '{{ route('tarifas.index') }}',
+                    method: 'GET',
+                    data: {
+                        search: search
+                    },
+                    success: function(response) {
+                        // Actualiza el contenido de la tabla con los nuevos resultados
+                        $('tbody').html($(response).find('tbody').html());
+                    }
+                });
+            });
             var confirmDeleteModal = document.getElementById('confirmDeleteModal');
             confirmDeleteModal.addEventListener('show.bs.modal', function(event) {
                 var button = event.relatedTarget; // Botón que abrió el modal
