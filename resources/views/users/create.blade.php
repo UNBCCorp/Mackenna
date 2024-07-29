@@ -8,8 +8,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
-
 </head>
 
 <body>
@@ -46,7 +44,8 @@
                                                 <option value="{{ $usergroup->id }}">{{ $usergroup->nombre }}</option>
                                             @endforeach
                                         </select>
-                                        <span class="text-danger">{{ $errors->first('tipo_usuario') }}</span>
+                                        <span id="tipoUsuarioError"
+                                            class="text-danger">{{ $errors->first('tipo_usuario') }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -56,7 +55,7 @@
                                         <label class="form-label" for="nombre">Nombre</label>
                                         <input type="text" id="name" name="name" class="form-control"
                                             placeholder="Nombre" required value="{{ old('name') }}" />
-                                        <span class="text-danger">{{ $errors->first('name') }}</span>
+                                        <span id="nameError" class="text-danger">{{ $errors->first('name') }}</span>
                                     </div>
                                 </div>
                                 <div class="col">
@@ -64,7 +63,8 @@
                                         <label class="form-label" for="apellido">Apellido</label>
                                         <input type="text" id="apellido" name="apellido" class="form-control"
                                             placeholder="Apellido" required value="{{ old('apellido') }}" />
-                                        <span class="text-danger">{{ $errors->first('apellido') }}</span>
+                                        <span id="apellidoError"
+                                            class="text-danger">{{ $errors->first('apellido') }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -81,7 +81,8 @@
                                                 </option>
                                             @endforeach
                                         </select>
-                                        <span class="text-danger">{{ $errors->first('tipo_documento') }}</span>
+                                        <span id="tipoDocumentoError"
+                                            class="text-danger">{{ $errors->first('tipo_documento') }}</span>
                                     </div>
                                 </div>
                                 <div class="col">
@@ -90,7 +91,8 @@
                                         <input type="text" id="numero_documento" name="numero_documento"
                                             class="form-control" placeholder="Número de Documento" required
                                             value="{{ old('numero_documento') }}" />
-                                        <span class="text-danger">{{ $errors->first('numero_documento') }}</span>
+                                        <span id="numeroDocumentoError"
+                                            class="text-danger">{{ $errors->first('numero_documento') }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -101,7 +103,8 @@
                                         <input type="text" id="numero_telefonico" name="numero_telefonico"
                                             class="form-control" placeholder="Número Telefónico" required
                                             value="{{ old('numero_telefonico') }}" />
-                                        <span class="text-danger">{{ $errors->first('numero_telefonico') }}</span>
+                                        <span id="numeroTelefonicoError"
+                                            class="text-danger">{{ $errors->first('numero_telefonico') }}</span>
                                     </div>
                                 </div>
                                 <div class="col">
@@ -109,7 +112,8 @@
                                         <label class="form-label" for="email">Correo</label>
                                         <input type="email" id="email" name="email" class="form-control"
                                             placeholder="Correo Electrónico" required value="{{ old('email') }}" />
-                                        <span class="text-danger">{{ $errors->first('email') }}</span>
+                                        <span id="emailError"
+                                            class="text-danger">{{ $errors->first('email') }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -127,7 +131,8 @@
                                                 </span>
                                             </div>
                                         </div>
-                                        <span class="text-danger">{{ $errors->first('password') }}</span>
+                                        <span id="passwordError"
+                                            class="text-danger">{{ $errors->first('password') }}</span>
                                     </div>
                                 </div>
                                 <div class="col-md-6 mb-4">
@@ -143,7 +148,8 @@
                                                 </span>
                                             </div>
                                         </div>
-                                        <span class="text-danger">{{ $errors->first('password_confirmation') }}</span>
+                                        <span id="confirmPasswordError"
+                                            class="text-danger">{{ $errors->first('password_confirmation') }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -156,8 +162,26 @@
             </div>
         </div>
     </div>
+    <script src="{{ asset('assets/validation-script.js') }}"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            const emailInput = document.getElementById('email');
+            const passwordInput = document.getElementById('password');
+            const confirmPasswordInput = document.getElementById('confirmPassword');
+            const nameInput = document.getElementById('name');
+            const apellidoInput = document.getElementById('apellido');
+            const tipoDocumentoInput = document.getElementById('tipo_documento');
+            const numeroDocumentoInput = document.getElementById('numero_documento');
+            const numeroTelefonicoInput = document.getElementById('numero_telefonico');
+
+            const emailError = document.getElementById('emailError');
+            const passwordError = document.getElementById('passwordError');
+            const confirmPasswordError = document.getElementById('confirmPasswordError');
+            const nameError = document.getElementById('nameError');
+            const apellidoError = document.getElementById('apellidoError');
+            const tipoDocumentoError = document.getElementById('tipoDocumentoError');
+            const numeroDocumentoError = document.getElementById('numeroDocumentoError');
+            const numeroTelefonicoError = document.getElementById('numeroTelefonicoError');
             const togglePassword1 = document.getElementById('togglePassword1');
             const togglePassword2 = document.getElementById('togglePassword2');
             const passwordInput1 = document.getElementById('password');
@@ -180,6 +204,69 @@
             togglePassword2.addEventListener('click', () => {
                 togglePasswordVisibility(passwordInput2, togglePassword2);
             });
+
+            document.getElementById('create-user-form').addEventListener('submit', function(event) {
+                let valid = true;
+
+                // Clear previous errors
+                emailError.textContent = '';
+                passwordError.textContent = '';
+                confirmPasswordError.textContent = '';
+                nameError.textContent = '';
+                apellidoError.textContent = '';
+                tipoDocumentoError.textContent = '';
+                numeroDocumentoError.textContent = '';
+                numeroTelefonicoError.textContent = '';
+
+                // Email validation
+                if (emailInput.value.trim() === '') {
+                    emailError.textContent = 'El campo de correo electrónico es obligatorio.';
+                    valid = false;
+                }
+
+                // Password validation
+                if (passwordInput.value.trim() === '') {
+                    passwordError.textContent = 'La contraseña es obligatoria.';
+                    valid = false;
+                } else if (passwordInput.value !== confirmPasswordInput.value) {
+                    confirmPasswordError.textContent = 'Las contraseñas no coinciden.';
+                    valid = false;
+                }
+
+                // Name validation
+                if (nameInput.value.trim() === '') {
+                    nameError.textContent = 'El nombre es obligatorio.';
+                    valid = false;
+                }
+
+                // Apellido validation
+                if (apellidoInput.value.trim() === '') {
+                    apellidoError.textContent = 'El apellido es obligatorio.';
+                    valid = false;
+                }
+
+                // Tipo Documento validation
+                if (tipoDocumentoInput.value.trim() === '') {
+                    tipoDocumentoError.textContent = 'El tipo de documento es obligatorio.';
+                    valid = false;
+                }
+
+                // Numero Documento validation
+                if (numeroDocumentoInput.value.trim() === '') {
+                    numeroDocumentoError.textContent = 'El número de documento es obligatorio.';
+                    valid = false;
+                }
+
+                // Numero Telefonico validation
+                if (numeroTelefonicoInput.value.trim() === '') {
+                    numeroTelefonicoError.textContent = 'El número telefónico es obligatorio.';
+                    valid = false;
+                }
+
+                if (!valid) {
+                    event.preventDefault();
+                }
+            });
         });
     </script>
     <script>
@@ -191,7 +278,7 @@
             @endif
         });
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
 </body>
 
