@@ -28,6 +28,7 @@ class User extends Authenticatable
         'email',
         'password',
         'tipo_usuario',
+        'estado',
     ];
 
     /**
@@ -62,5 +63,14 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+    public function tipoDocumento()
+    {
+        return $this->belongsTo(TipoDocumento::class, 'tipo_documento');
+    }
+
+    public function userGroup()
+    {
+        return $this->belongsTo(UserGroup::class, 'tipo_usuario');
     }
 }

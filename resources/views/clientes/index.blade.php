@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container">
-        <h1 class="text-center mb-4">Clientes Aprobados</h1>
+        <h1 class="text-center mb-4">Clientes Particulares</h1>
 
         <!-- Habilita el botón de crear solo si el usuario tiene el permiso correspondiente -->
         @if (in_array(9, $permisosUsuario))
@@ -19,8 +19,6 @@
                 <button type="submit" class="btn btn-outline-secondary">Buscar</button>
             </div>
         </form>
-
-        <h2>Clientes Particulares</h2>
         <div class="table-responsive">
             <table class="table table-striped">
                 <thead>
@@ -70,55 +68,7 @@
             </table>
         </div>
 
-        <h2>Clientes Empresas</h2>
-        <div class="table-responsive">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Nombre</th>
-                        <th>Email</th>
-                        <!-- Otros campos que quieras mostrar -->
-                        <th></th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($clientesEmpresas as $cliente)
-                        <tr>
-                            <td>{{ $cliente->name }}</td>
-                            <td>{{ $cliente->email }}</td>
-                            <!-- Otros campos que quieras mostrar -->
-                            @if (in_array(10, $permisosUsuario))
-                                <td>
-                                    <a href="#" class="btn btn-info" data-bs-toggle="modal"
-                                        data-bs-target="#verClienteModal" data-id="{{ $cliente->id }}">
-                                        <i class="fas fa-eye"></i> Ver
-                                    </a>
-                                </td>
-                            @endif
-                            @if (in_array(11, $permisosUsuario))
-                                <td>
-                                    <a href="#" class="btn btn-warning" data-bs-toggle="modal"
-                                        data-bs-target="#editClienteModal" data-id="{{ $cliente->id }}"
-                                        data-name="{{ $cliente->name }}">
-                                        <i class="fas fa-edit"></i> Editar
-                                    </a>
-                                </td>
-                            @endif
-                            @if (in_array(12, $permisosUsuario))
-                                <td>
-                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal"
-                                        data-bs-target="#confirmDeleteModal"
-                                        data-action="{{ route('clientes.destroy', $cliente->id) }}">
-                                        <i class="fas fa-trash"></i> Eliminar
-                                    </button>
-                                </td>
-                            @endif
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
+
     </div>
 
     @include('clientes.create')

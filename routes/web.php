@@ -52,3 +52,5 @@ Route::get('clientes', [ClienteController::class, 'index'])->name('clientes.inde
 Route::get('clientes/create', [ClienteController::class, 'create'])->name('clientes.create');
 Route::post('clientes/store', [ClienteController::class, 'store'])->name('clientes.store');
 Route::get('clientes/validados', [ValidatorClienteController::class, 'index'])->name('clientes2.validados');
+Route::resource('clientes', ClienteController::class);
+Route::put('/users/{user}', [UserController::class, 'update']);

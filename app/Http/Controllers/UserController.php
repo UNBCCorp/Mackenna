@@ -29,7 +29,7 @@ class UserController extends Controller
         $permisosUsuario = !empty($userGroup->permisos) ? json_decode($userGroup->permisos, true) : [];
 
         // Consulta los usuarios con el filtro de búsqueda
-        $usersQuery = User::query();
+        $usersQuery = User::with('tipoDocumento', 'userGroup'); // Incluye relaciones
 
         if (!empty($search)) {
             $usersQuery->where('name', 'like', '%' . $search . '%')
@@ -44,6 +44,7 @@ class UserController extends Controller
             'permisosUsuario' => $permisosUsuario, // Pasa los permisos a la vista
         ]);
     }
+
 
 
     /**
@@ -61,26 +62,34 @@ class UserController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
+            'apellido' => 'required|string|max:255',
+            'tipo_documento' => 'required|integer|exists:tipo_documento,id',
+            'tipo_usuario' => 'required|integer|exists:user_groups,id', // Aquí verifica que 'user_groups' sea correcto
+            'numero_documento' => 'required|string|max:255',
+            'numero_telefonico' => 'required|string|max:15',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
         ]);
 
         $user = new User([
-            'name' => $request->get('name'),
-            'email' => $request->get('email'),
-            'password' => Hash::make($request->get('password')),
-            'apellido' => $request->get('apellido'),
-            'tipo_documento' => $request->get('tipo_documento'),
-            'numero_documento' => $request->get('numero_documento'),
-            'numero_telefonico' => $request->get('numero_telefonico'),
-            'tipo_usuario' => $request->get('tipo_usuario'),
-            'estado' => $request->get('estado', 'activo'),
+            'name' => $request->name,
+            'apellido' => $request->apellido,
+            'tipo_documento' => $request->tipo_documento,
+            'numero_documento' => $request->numero_documento,
+            'numero_telefonico' => $request->numero_telefonico,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'tipo_usuario' => $request->tipo_usuario, // Aquí verifica que 'tipo_usuario' sea un campo válido en la tabla 'users'
+            'estado' => $request->get('estado', 'Activo'),
         ]);
 
-        $user->save();
-
-        return redirect('/users')->with('success', 'User has been added');
+        if ($user->save()) {
+            return redirect('/users')->with('success', 'User has been added');
+        } else {
+            return redirect()->back()->with('error', 'Failed to create user');
+        }
     }
+
 
     /**
      * Display the specified user.
@@ -92,14 +101,26 @@ class UserController extends Controller
     }
     public function getUserData($id)
     {
-        $user = User::find($id);
+        $user = User::with('tipoDocumento', 'userGroup')->find($id);
 
-        if ($user) {
-            return response()->json($user);
-        } else {
+        if (!$user) {
             return response()->json(['error' => 'User not found'], 404);
         }
+
+        return response()->json([
+            'id' => $user->id,
+            'name' => $user->name,
+            'apellido' => $user->apellido,
+            'tipo_documento' => $user->tipoDocumento ? $user->tipoDocumento->nombre : 'No definido',
+            'numero_documento' => $user->numero_documento,
+            'numero_telefonico' => $user->numero_telefonico,
+            'email' => $user->email,
+            'tipo_usuario' => $user->userGroup ? $user->userGroup->nombre : 'No definido',
+            'estado' => $user->estado,
+        ]);
     }
+
+
 
 
     /**

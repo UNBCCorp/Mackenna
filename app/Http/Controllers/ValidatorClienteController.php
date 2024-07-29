@@ -27,21 +27,28 @@ class ValidatorClienteController extends Controller
         // Decodifica los permisos del grupo de usuarios
         $permisosUsuario = !empty($userGroup->permisos) ? json_decode($userGroup->permisos, true) : [];
 
-        // Consulta los clientes con el filtro de búsqueda
-        $clientesQuery = Cliente::where('estado_cliente', 'validation')
-            ->orWhereIn('id', ClienteEmpresa::where('estado_cliente', 'validation')->pluck('id'));
+        // Consulta los clientes particulares y empresas con el filtro de búsqueda
+        $clientesParticularesQuery = Cliente::where('estado_cliente', 'aprobado');
+        $clientesEmpresasQuery = ClienteEmpresa::where('estado_cliente', 'aprobado');
 
         if (!empty($search)) {
-            $clientesQuery->where(function ($query) use ($search) {
+            $clientesParticularesQuery->where(function ($query) use ($search) {
+                $query->where('name', 'like', '%' . $search . '%')
+                    ->orWhere('email', 'like', '%' . $search . '%');
+            });
+
+            $clientesEmpresasQuery->where(function ($query) use ($search) {
                 $query->where('name', 'like', '%' . $search . '%')
                     ->orWhere('email', 'like', '%' . $search . '%');
             });
         }
 
-        $clientes = $clientesQuery->get();
+        $clientesParticulares = $clientesParticularesQuery->get();
+        $clientesEmpresas = $clientesEmpresasQuery->get();
 
         return view('clientes.index-validator', [
-            'clientes' => $clientes,
+            'clientesParticulares' => $clientesParticulares,
+            'clientesEmpresas' => $clientesEmpresas,
             'search' => $search,
             'permisosUsuario' => $permisosUsuario, // Pasa los permisos a la vista
         ]);
