@@ -69,7 +69,7 @@ class TarifaController extends Controller
         $request->validate([
             'nombre' => 'required|string|max:255',
             'porcentaje' => 'required|numeric|between:0,999.99',
-            'tipo_vehiculo' => 'required|array',
+            'tipo_vehiculo' => 'array',
             'tipo_vehiculo.*' => 'exists:tipo_vehiculos,id',
         ]);
 
@@ -123,7 +123,7 @@ class TarifaController extends Controller
         $request->validate([
             'nombre' => 'required|string|max:255',
             'porcentaje' => 'required|numeric|between:0,999.99',
-            'tipo_vehiculo' => 'required|array',
+            'tipo_vehiculo' => 'array',
             'tipo_vehiculo.*' => 'exists:tipo_vehiculos,id',
             'users' => 'nullable|string', // Ajustado para permitir que el campo 'users' sea opcional
         ]);
