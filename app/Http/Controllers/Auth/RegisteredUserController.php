@@ -5,9 +5,8 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\PasswordResetController;
 
 class RegisteredUserController extends Controller
 {
@@ -17,17 +16,15 @@ class RegisteredUserController extends Controller
         return view('auth.register', compact('tipoDocumentos'));
     }
 
-
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'apellido' => 'required|string|max:255',
             'tipo_documento' => 'required|integer|exists:tipo_documento,id',
-            'numero_documento' => 'required|string|max:255',
-            'numero_telefonico' => 'required|string|max:15',
+            'numero_documento' => 'required|digits:10',
+            'numero_telefonico' => 'required|digits:10',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
         ]);
 
         if ($validator->fails()) {
@@ -42,17 +39,17 @@ class RegisteredUserController extends Controller
                 'numero_documento' => $request->numero_documento,
                 'numero_telefonico' => $request->numero_telefonico,
                 'email' => $request->email,
-                'password' => Hash::make($request->password),
                 'tipo_usuario' => '2',
             ]);
 
-            // Autenticación automática
-            Auth::login($user);
+            // Enviar el correo para la creación de contraseña
+            $passwordResetController = new PasswordResetController();
+            $passwordResetController->sendResetLinkEmail($request);
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Error al registrar el usuario: ' . $e->getMessage());
         }
 
-        // Redirección al dashboard
-        return redirect()->route('dashboard')->with('success', 'Registro exitoso. Bienvenido al dashboard.');
+        // Mostrar mensaje de éxito
+        return redirect()->route('register')->with('success', 'Registro exitoso. Se ha enviado un correo para crear tu contraseña.');
     }
 }

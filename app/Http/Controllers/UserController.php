@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\UserGroup;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Controllers\PasswordResetController;
+use Illuminate\Support\Facades\Password;
 
 class UserController extends Controller
 {
@@ -69,7 +71,6 @@ class UserController extends Controller
             'numero_documento' => 'required|digits:10',
             'numero_telefonico' => 'required|digits:10',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
         ]);
 
         $user = new User([
@@ -79,12 +80,14 @@ class UserController extends Controller
             'numero_documento' => $request->numero_documento,
             'numero_telefonico' => $request->numero_telefonico,
             'email' => $request->email,
-            'password' => Hash::make($request->password),
             'tipo_usuario' => $request->tipo_usuario,
             'estado' => $request->get('estado', 'Activo'),
         ]);
 
         if ($user->save()) {
+            $passwordResetController = new PasswordResetController();
+            $passwordResetRequest = new Request(['email' => $user->email]);
+            $passwordResetController->sendResetLinkEmail($passwordResetRequest);
             return redirect('/users')->with('success', 'User has been added');
         } else {
             return redirect()->back()->with('error', 'Failed to create user');
