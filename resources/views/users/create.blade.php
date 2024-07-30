@@ -117,42 +117,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-6 mb-4">
-                                    <div data-mdb-input-init class="form-outline">
-                                        <label class="form-label" for="password">Contraseña</label>
-                                        <div class="input-group">
-                                            <input type="password" name="password" id="password"
-                                                class="form-control" />
-                                            <div class="input-group-append">
-                                                <span class="input-group-text custom-toggle-password"
-                                                    id="togglePassword1">
-                                                    <i class="fas fa-eye"></i>
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <span id="passwordError"
-                                            class="text-danger">{{ $errors->first('password') }}</span>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 mb-4">
-                                    <div data-mdb-input-init class="form-outline">
-                                        <label class="form-label" for="confirmPassword">Repetir Contraseña</label>
-                                        <div class="input-group">
-                                            <input type="password" name="password_confirmation" id="confirmPassword"
-                                                class="form-control" />
-                                            <div class="input-group-append">
-                                                <span class="input-group-text custom-toggle-password"
-                                                    id="togglePassword2">
-                                                    <i class="fas fa-eye"></i>
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <span id="confirmPasswordError"
-                                            class="text-danger">{{ $errors->first('password_confirmation') }}</span>
-                                    </div>
-                                </div>
-                            </div>
+
                             <div class="text-center pt-1 mb-5 pb-1">
                                 <button class="btn btn-primary btn-block fa-lg mb-3" type="submit">Guardar</button>
                             </div>
@@ -166,8 +131,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const emailInput = document.getElementById('email');
-            const passwordInput = document.getElementById('password');
-            const confirmPasswordInput = document.getElementById('confirmPassword');
+
             const nameInput = document.getElementById('name');
             const apellidoInput = document.getElementById('apellido');
             const tipoDocumentoInput = document.getElementById('tipo_documento');
@@ -175,35 +139,15 @@
             const numeroTelefonicoInput = document.getElementById('numero_telefonico');
 
             const emailError = document.getElementById('emailError');
-            const passwordError = document.getElementById('passwordError');
-            const confirmPasswordError = document.getElementById('confirmPasswordError');
+
             const nameError = document.getElementById('nameError');
             const apellidoError = document.getElementById('apellidoError');
             const tipoDocumentoError = document.getElementById('tipoDocumentoError');
             const numeroDocumentoError = document.getElementById('numeroDocumentoError');
             const numeroTelefonicoError = document.getElementById('numeroTelefonicoError');
-            const togglePassword1 = document.getElementById('togglePassword1');
-            const togglePassword2 = document.getElementById('togglePassword2');
-            const passwordInput1 = document.getElementById('password');
-            const passwordInput2 = document.getElementById('confirmPassword');
 
-            function togglePasswordVisibility(input, icon) {
-                if (input.type === 'password') {
-                    input.type = 'text';
-                    icon.innerHTML = '<i class="fas fa-eye-slash"></i>';
-                } else {
-                    input.type = 'password';
-                    icon.innerHTML = '<i class="fas fa-eye"></i>';
-                }
-            }
 
-            togglePassword1.addEventListener('click', () => {
-                togglePasswordVisibility(passwordInput1, togglePassword1);
-            });
 
-            togglePassword2.addEventListener('click', () => {
-                togglePasswordVisibility(passwordInput2, togglePassword2);
-            });
 
             document.getElementById('create-user-form').addEventListener('submit', function(event) {
                 let valid = true;
@@ -221,15 +165,6 @@
                 // Email validation
                 if (emailInput.value.trim() === '') {
                     emailError.textContent = 'El campo de correo electrónico es obligatorio.';
-                    valid = false;
-                }
-
-                // Password validation
-                if (passwordInput.value.trim() === '') {
-                    passwordError.textContent = 'La contraseña es obligatoria.';
-                    valid = false;
-                } else if (passwordInput.value !== confirmPasswordInput.value) {
-                    confirmPasswordError.textContent = 'Las contraseñas no coinciden.';
                     valid = false;
                 }
 

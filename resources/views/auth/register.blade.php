@@ -28,7 +28,14 @@
                                         <img src="{{ asset('assets/logo.jpg') }}" style="width: 555px; height: auto;"
                                             alt="logo">
                                     </div>
-
+                                    @if (session('success'))
+                                        <div class="alert alert-success alert-dismissible fade show mt-4"
+                                            role="alert">
+                                            {{ session('success') }}
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                                aria-label="Close"></button>
+                                        </div>
+                                    @endif
                                     <form action="{{ route('register') }}" method="POST">
                                         @csrf
                                         <br />
@@ -100,41 +107,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="row">
-                                            <div class="col-md-6 mb-4">
-                                                <div data-mdb-input-init class="form-outline">
-                                                    <label class="form-label" for="password">Contraseña</label>
-                                                    <div class="input-group">
-                                                        <input type="password" name="password" id="password"
-                                                            class="form-control" />
-                                                        <div class="input-group-append">
-                                                            <span class="input-group-text custom-toggle-password"
-                                                                id="togglePassword1">
-                                                                <i class="fas fa-eye"></i>
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                    <span class="text-danger" id="passwordError"></span>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6 mb-4">
-                                                <div data-mdb-input-init class="form-outline">
-                                                    <label class="form-label" for="confirmPassword">Repetir
-                                                        Contraseña</label>
-                                                    <div class="input-group">
-                                                        <input type="password" name="password_confirmation"
-                                                            id="confirmPassword" class="form-control" />
-                                                        <div class="input-group-append">
-                                                            <span class="input-group-text custom-toggle-password"
-                                                                id="togglePassword2">
-                                                                <i class="fas fa-eye"></i>
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                    <span class="text-danger" id="confirmPasswordError"></span>
-                                                </div>
-                                            </div>
-                                        </div>
+
 
                                         <div class="text-center pt-1 mb-5 pb-1">
                                             <button data-mdb-button-init data-mdb-ripple-init
