@@ -48,8 +48,6 @@ class UserController extends Controller
         ]);
     }
 
-
-
     /**
      * Show the form for creating a new user.
      */
@@ -63,7 +61,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'apellido' => 'required|string|max:255',
             'tipo_documento' => 'required|integer|exists:tipo_documento,id',
@@ -72,6 +70,10 @@ class UserController extends Controller
             'numero_telefonico' => 'required|digits:10',
             'email' => 'required|string|email|max:255|unique:users',
         ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput()->with('createUserModal', true);
+        }
 
         $user = new User([
             'name' => $request->name,
@@ -94,8 +96,6 @@ class UserController extends Controller
         }
     }
 
-
-
     /**
      * Display the specified user.
      */
@@ -104,6 +104,7 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         return view('users.show', compact('user'));
     }
+
     public function getUserData($id)
     {
         $user = User::with('tipoDocumento', 'userGroup')->find($id);
@@ -125,9 +126,6 @@ class UserController extends Controller
         ]);
     }
 
-
-
-
     /**
      * Show the form for editing the specified user.
      */
@@ -142,17 +140,15 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // Obtener el usuario actual para comparación
         $user = User::findOrFail($id);
 
-        // Validar los datos de entrada
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'email' => [
+                'required',
                 'string',
                 'email',
                 'max:255',
-                // Solo agregar la regla unique si el email ha cambiado
                 $request->input('email') !== $user->email ? 'unique:users,email' : '',
             ],
             'password' => 'nullable|string|min:8|confirmed',
@@ -164,15 +160,14 @@ class UserController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput()->with('editUserModal', true);
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput()
+                ->with('editUserId', $id);
         }
 
-        // Actualizar los campos del usuario
         $user->name = $request->input('name');
         $user->email = $request->input('email');
-
-
-
         $user->apellido = $request->input('apellido');
         $user->tipo_documento = $request->input('tipo_documento');
         $user->numero_documento = $request->input('numero_documento');
@@ -184,6 +179,7 @@ class UserController extends Controller
 
         return redirect('/users')->with('success', 'User has been updated');
     }
+
 
     /**
      * Remove the specified user from storage.

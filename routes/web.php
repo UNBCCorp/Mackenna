@@ -39,8 +39,8 @@ Route::resource('usergroups', UserGroupController::class);
 Route::get('usergroups/create', [UserGroupController::class, 'create'])->name('usergroups.create');
 Route::resource('tipovehiculo', TipoVehiculoController::class);
 Route::resource('marcavehiculo', MarcaVehiculoController::class);
-Route::get('/marcavehiculo/{marcaVehiculo}/edit', [MarcaVehiculoController::class, 'edit'])->name('marcavehiculo.edit');
-Route::put('marcavehiculo/{id}', 'MarcavehiculoController@update')->name('marcavehiculo.update');
+
+
 Route::resource('tarifas', TarifaController::class);
 Route::get('forgot-password', [PasswordResetController::class, 'showForgotPasswordForm'])->name('password.request');
 Route::post('forgot-password', [PasswordResetController::class, 'sendResetLinkEmail'])->name('password.email');
@@ -50,8 +50,7 @@ Route::get('/send-test-email', [TestController::class, 'sendTestEmail']);
 Route::resource('users', UserController::class);
 Route::get('/users/data/{id}', [UserController::class, 'getUserData']);
 Route::get('clientes', [ClienteController::class, 'index'])->name('clientes.index');
-Route::get('clientes/create', [ClienteController::class, 'create'])->name('clientes.create');
-Route::post('clientes/store', [ClienteController::class, 'store'])->name('clientes.store');
+
 Route::get('clientes/validados', [ValidatorClienteController::class, 'index'])->name('clientes2.validados');
 Route::resource('clientes', ClienteController::class);
 Route::put('/users/{user}', [UserController::class, 'update']);
