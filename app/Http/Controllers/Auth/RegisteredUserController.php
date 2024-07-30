@@ -40,6 +40,7 @@ class RegisteredUserController extends Controller
                 'numero_telefonico' => $request->numero_telefonico,
                 'email' => $request->email,
                 'tipo_usuario' => '2',
+                'estado' => $request->get('estado', 'Activo'),
             ]);
 
             // Enviar el correo para la creación de contraseña

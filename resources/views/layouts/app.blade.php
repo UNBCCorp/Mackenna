@@ -99,6 +99,13 @@
                             </a>
                         </li>
                     @endif
+                    @if (in_array('14', $permisosUsuario))
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('surcursales.index') }}">
+                                <i class="fas fa-store"></i> Sucursales
+                            </a>
+                        </li>
+                    @endif
                 </ul>
             </li>
         </ul>
