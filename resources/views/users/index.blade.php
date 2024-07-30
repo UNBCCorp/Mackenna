@@ -71,6 +71,7 @@
                                         <i class="fas fa-edit"></i>
                                     </a>
 
+
                                 </td>
                             @endif
                             @if (in_array(20, $permisosUsuario))

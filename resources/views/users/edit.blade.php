@@ -7,6 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        .invalid {
+            border-color: #dc3545;
+        }
+    </style>
 </head>
 
 <body>
@@ -111,7 +116,8 @@
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary"
                                     data-bs-dismiss="modal">Cerrar</button>
-                                <button type="submit" class="btn btn-primary">Guardar</button>
+                                <button type="submit" id="saveButton" class="btn btn-primary"
+                                    disabled>Guardar</button>
                             </div>
                         </form>
                     </div>
@@ -124,46 +130,46 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            const nameInput = document.getElementById('name2');
+            const apellidoInput = document.getElementById('apellido2');
+            const numeroDocumentoInput = document.getElementById('numero_documento2');
+            const numeroTelefonicoInput = document.getElementById('numero_telefonico2');
+            const emailInput = document.getElementById('email2');
+            const saveButton = document.getElementById('saveButton');
 
-            var editUsersModal = document.getElementById('editUsersModal');
+            function validateForm() {
+                const name = nameInput.value;
+                const apellido = apellidoInput.value;
+                const numeroDocumento = numeroDocumentoInput.value;
+                const numeroTelefonico = numeroTelefonicoInput.value;
+                const email = emailInput.value;
 
-            editUsersModal.addEventListener('show.bs.modal', function(event) {
-                var button = event.relatedTarget; // Botón que abrió el modal
-                var userId = button.getAttribute('data-id');
+                const nameIsValid = /^[a-zA-Z\s]+$/.test(name);
+                const apellidoIsValid = /^[a-zA-Z\s]+$/.test(apellido);
+                const numeroDocumentoIsValid = /^\d+$/.test(numeroDocumento);
+                const numeroTelefonicoIsValid = /^\d+$/.test(numeroTelefonico);
+                const emailIsValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
-                // Realiza una solicitud para obtener los datos del usuario
-                fetch(`/users/data/${userId}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.error) {
-                            console.error(data.error);
-                        } else {
-                            // Actualiza los elementos del formulario en el modal con los datos del usuario
-                            document.getElementById('userId').value = data.id;
-                            document.getElementById('tipo_usuario').value = data.tipo_usuario;
-                            document.getElementById('name').value = data.name;
-                            document.getElementById('apellido').value = data.apellido;
-                            document.getElementById('tipo_documento').value = data.tipo_documento;
-                            document.getElementById('numero_documento').value = data.numero_documento;
-                            document.getElementById('numero_telefonico').value = data.numero_telefonico;
-                            document.getElementById('email').value = data.email;
+                const isFormValid = nameIsValid && apellidoIsValid && numeroDocumentoIsValid &&
+                    numeroTelefonicoIsValid && emailIsValid;
 
-                            // Actualiza la acción del formulario para el ID del usuario actual
-                            var form = document.getElementById('editUsersForm');
-                            form.action =
-                                `/users/${userId}`; // Asegúrate de que la ruta para la edición sea correcta
-                        }
-                    })
-                    .catch(error => console.error('Error al obtener los datos del usuario:', error));
-            });
+                saveButton.disabled = !isFormValid;
+
+                // Add/remove invalid class
+                nameInput.classList.toggle('invalid', !nameIsValid);
+                apellidoInput.classList.toggle('invalid', !apellidoIsValid);
+                numeroDocumentoInput.classList.toggle('invalid', !numeroDocumentoIsValid);
+                numeroTelefonicoInput.classList.toggle('invalid', !numeroTelefonicoIsValid);
+                emailInput.classList.toggle('invalid', !emailIsValid);
+            }
+
+            // Attach event listeners
+            nameInput.addEventListener('input', validateForm);
+            apellidoInput.addEventListener('input', validateForm);
+            numeroDocumentoInput.addEventListener('input', validateForm);
+            numeroTelefonicoInput.addEventListener('input', validateForm);
+            emailInput.addEventListener('input', validateForm);
         });
-    </script>
-    <script>
-        @if ($errors->any() || session('editUserModal'))
-            $(document).ready(function() {
-                $('#editUsersModal').modal('show');
-            });
-        @endif
     </script>
 </body>
 
