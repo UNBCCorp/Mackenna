@@ -41,7 +41,7 @@
                             @endphp
                             <div class="row">
                                 <div class="col-md-6 mb-3">
-                                    <label for="provincia">Provincia</label>
+                                    <label for="provincia">Ciudad</label>
                                     @if (isset($provincias) && $provincias->isNotEmpty())
                                         <select id="edit_ciudad" name="ciudad" class="form-control" required>
                                             <option value="">Seleccione una Provincia</option>

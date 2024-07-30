@@ -23,6 +23,32 @@
         .form-group.full-width {
             flex: 0 0 100%;
         }
+
+        .hidden {
+            display: none;
+        }
+
+        .arrow {
+            cursor: pointer;
+        }
+
+        .arrow i {
+            transition: transform 0.3s;
+        }
+
+        .arrow.down i {
+            transform: rotate(180deg);
+        }
+
+        .permissions-list {
+            padding-left: 20px;
+        }
+
+        .form-check {
+            display: block;
+            margin-bottom: 1rem;
+            /* Ajusta el margen según sea necesario */
+        }
     </style>
 </head>
 

@@ -75,7 +75,12 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('clientes2.validados') }}">
-                            <i class="fas fa-user-alt"></i> Clientes Empresa
+                            <i class="fas fa-user-tie"></i> Clientes Empresa
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('clientes.index') }}">
+                            <i class="fas fa-user-friends"></i> Proveedores
                         </a>
                     </li>
                     @if (in_array('17', $permisosUsuario))
@@ -99,7 +104,7 @@
                             </a>
                         </li>
                     @endif
-                    @if (in_array('14', $permisosUsuario))
+                    @if (in_array('21', $permisosUsuario))
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('surcursales.index') }}">
                                 <i class="fas fa-store"></i> Sucursales
