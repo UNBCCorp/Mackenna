@@ -6,7 +6,7 @@
         <br />
 
         <!-- Habilita el botón de crear solo si el usuario tiene el permiso correspondiente -->
-        @if (in_array(1, $permisosUsuario))
+        @if (in_array(22, $permisosUsuario))
             <!-- Cambia 8 por el ID del permiso necesario -->
             <div class="d-flex justify-content-end">
                 <a href="" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createSurcursalModal">+Crear
@@ -26,14 +26,14 @@
                     <th>ID</th>
                     <th>Nombre</th>
                     <th>Dirección</th>
-                    <th>Provincia</th>
+                    <th>Ciudad</th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($sucursales as $sucursal)
                     <tr>
-                        @if (in_array(2, $permisosUsuario))
+                        @if (in_array(21, $permisosUsuario))
                             <td>{{ $sucursal->id }}</td>
                             <td>{{ $sucursal->nombre }}</td>
                             <td>{{ $sucursal->direccion }}</td>
@@ -42,7 +42,7 @@
 
                         <td>
                             <!-- Habilita el botón de editar solo si el usuario tiene el permiso correspondiente -->
-                            @if (in_array(3, $permisosUsuario))
+                            @if (in_array(23, $permisosUsuario))
                                 <!-- Cambia 9 por el ID del permiso necesario -->
                                 <a href="#" class="btn btn-warning" data-bs-toggle="modal"
                                     data-bs-target="#editsucursalModal" data-id="{{ $sucursal->id }}"
@@ -53,7 +53,7 @@
                             @endif
 
                             <!-- Habilita el botón de eliminar solo si el usuario tiene el permiso correspondiente -->
-                            @if (in_array(4, $permisosUsuario))
+                            @if (in_array(24, $permisosUsuario))
                                 <!-- Cambia 10 por el ID del permiso necesario -->
                                 <button type="button" class="btn btn-danger" data-bs-toggle="modal"
                                     data-bs-target="#confirmDeleteModal"

@@ -18,4 +18,8 @@ class Tarifa extends Model
     protected $casts = [
         'tipo_vehiculo' => 'array', // Asegúrate de que 'tipo_vehiculo' se convierta a un array cuando se lea
     ];
+    public function getTipoVehiculos()
+    {
+        return TipoVehiculo::whereIn('id', $this->tipo_vehiculo)->pluck('nombre', 'id')->toArray();
+    }
 }
