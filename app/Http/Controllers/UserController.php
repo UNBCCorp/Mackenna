@@ -171,10 +171,7 @@ class UserController extends Controller
         $user->name = $request->input('name');
         $user->email = $request->input('email');
 
-        // Solo actualizar la contraseña si se ha proporcionado una nueva
-        if ($request->filled('password')) {
-            $user->password = Hash::make($request->input('password'));
-        }
+
 
         $user->apellido = $request->input('apellido');
         $user->tipo_documento = $request->input('tipo_documento');

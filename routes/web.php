@@ -14,6 +14,7 @@ use App\Http\Controllers\TestController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\ValidatorClienteController;
+use App\Http\Controllers\SucursalController;
 // Ruta principal
 Route::get('/', function () {
     return redirect()->route('login'); // Cambia 'login' por el nombre de tu ruta de login
@@ -54,3 +55,4 @@ Route::post('clientes/store', [ClienteController::class, 'store'])->name('client
 Route::get('clientes/validados', [ValidatorClienteController::class, 'index'])->name('clientes2.validados');
 Route::resource('clientes', ClienteController::class);
 Route::put('/users/{user}', [UserController::class, 'update']);
+Route::resource('surcursales', SucursalController::class);
