@@ -65,8 +65,8 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('usergroups.index') }}">
-                            <i class="fas fa-car-side"></i> Equipamentos
+                        <a class="nav-link" href="{{ route('equipamientovehiculo.index') }}">
+                            <i class="fa-solid fa-cart-plus"></i> Equipamentos
                         </a>
                     </li>
                 </ul>

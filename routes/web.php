@@ -42,6 +42,8 @@ Route::get('usergroups/create', [UserGroupController::class, 'create'])->name('u
 Route::resource('tipovehiculo', TipoVehiculoController::class);
 Route::resource('marcavehiculo', MarcaVehiculoController::class);
 Route::resource('accesoriovehiculo', AccesorioVehiculoController::class);
+Route::resource('equipamientovehiculo', EquipamientoVehiculoController::class);
+
 
 Route::resource('tarifas', TarifaController::class);
 Route::get('forgot-password', [PasswordResetController::class, 'showForgotPasswordForm'])->name('password.request');

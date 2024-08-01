@@ -13,21 +13,22 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     editNameInput.addEventListener('input', function() {
-        validateName(this.value.trim(), editNameError);
+        validateName2(this.value.trim(), editNameError);
     });
     editName2Input.addEventListener('input', function() {
         validateName2(this.value.trim(), editName2Error);
     });
 
     function validateName(value, errorElement) {
-        var regex = /^[a-zA-Z\s]*$/;
+        var regex = /^[a-zA-Z0-9\s]*$/;
 
         if (!regex.test(value)) {
-            errorElement.textContent = 'El nombre solo puede contener letras y espacios.';
+            errorElement.textContent = 'El nombre solo puede contener letras, números y espacios.';
         } else {
             errorElement.textContent = '';
         }
     }
+
     function validateName2(value, errorElement) {
         var regex = /^[a-zA-Z0-9\s]*$/;
 
