@@ -50,13 +50,13 @@
                     @if (in_array('2', $permisosUsuario))
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('marcavehiculo.index') }}">
-                                <i class="fas fa-car"></i> Marcas
+                                <i class="fas fa-car-side"></i> Marcas
                             </a>
                         </li>
                     @endif
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('usergroups.index') }}">
-                            <i class="fas fa-car-side"></i> Modelos
+                            <i class="fas fa-car"></i> Modelos
                         </a>
                     </li>
                     <li class="nav-item">
@@ -67,6 +67,11 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('equipamientovehiculo.index') }}">
                             <i class="fa-solid fa-cart-plus"></i> Equipamentos
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('graficovehiculo.index') }}">
+                            <i class="fa-solid fa-truck-pickup"></i> Graficos
                         </a>
                     </li>
                 </ul>
