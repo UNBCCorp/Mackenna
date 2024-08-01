@@ -59,21 +59,27 @@
                             <i class="fas fa-car"></i> Modelos
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('accesoriovehiculo.index') }}">
-                            <i class="fa-solid fa-cart-shopping"></i>Accesorios
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('equipamientovehiculo.index') }}">
-                            <i class="fa-solid fa-cart-plus"></i> Equipamentos
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('graficovehiculo.index') }}">
-                            <i class="fa-solid fa-truck-pickup"></i> Graficos
-                        </a>
-                    </li>
+                    @if (in_array('25', $permisosUsuario))
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('accesoriovehiculo.index') }}">
+                                <i class="fa-solid fa-cart-shopping"></i>Accesorios
+                            </a>
+                        </li>
+                    @endif
+                    @if (in_array('29', $permisosUsuario))
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('equipamientovehiculo.index') }}">
+                                <i class="fa-solid fa-cart-plus"></i> Equipamentos
+                            </a>
+                        </li>
+                    @endif
+                    @if (in_array('33', $permisosUsuario))
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('graficovehiculo.index') }}">
+                                <i class="fa-solid fa-truck-pickup"></i> Graficos
+                            </a>
+                        </li>
+                    @endif
                 </ul>
             </li>
 
