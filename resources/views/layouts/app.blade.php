@@ -59,6 +59,16 @@
                             <i class="fas fa-car-side"></i> Modelos
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('accesoriovehiculo.index') }}">
+                            <i class="fa-solid fa-cart-shopping"></i>Accesorios
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('equipamientovehiculo.index') }}">
+                            <i class="fa-solid fa-cart-plus"></i> Equipamentos
+                        </a>
+                    </li>
                 </ul>
             </li>
 
