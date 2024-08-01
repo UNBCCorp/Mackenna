@@ -6,7 +6,7 @@
         <br />
 
         <!-- Habilita el botón de crear solo si el usuario tiene el permiso correspondiente -->
-        @if (in_array(1, $permisosUsuario))
+        @if (in_array(30, $permisosUsuario))
             <!-- Cambia 8 por el ID del permiso necesario -->
             <div class="d-flex justify-content-end">
                 <a href="" class="btn btn-primary" data-bs-toggle="modal"
@@ -31,14 +31,14 @@
             <tbody>
                 @foreach ($equipamientos as $equipamiento)
                     <tr>
-                        @if (in_array(2, $permisosUsuario))
+                        @if (in_array(29, $permisosUsuario))
                             <td>{{ $equipamiento->id }}</td>
                             <td>{{ $equipamiento->nombre }}</td>
                         @endif
 
                         <td>
                             <!-- Habilita el botón de editar solo si el usuario tiene el permiso correspondiente -->
-                            @if (in_array(3, $permisosUsuario))
+                            @if (in_array(31, $permisosUsuario))
                                 <!-- Cambia 9 por el ID del permiso necesario -->
                                 <a href="#" class="btn btn-warning" data-bs-toggle="modal"
                                     data-bs-target="#editEquipamientovehiculoModal" data-id="{{ $equipamiento->id }}"
@@ -48,7 +48,7 @@
                             @endif
 
                             <!-- Habilita el botón de eliminar solo si el usuario tiene el permiso correspondiente -->
-                            @if (in_array(4, $permisosUsuario))
+                            @if (in_array(32, $permisosUsuario))
                                 <!-- Cambia 10 por el ID del permiso necesario -->
                                 <button type="button" class="btn btn-danger" data-bs-toggle="modal"
                                     data-bs-target="#confirmDeleteModal"
