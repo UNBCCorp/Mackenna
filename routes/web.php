@@ -10,6 +10,7 @@ use App\Http\Controllers\TipoVehiculoController;
 use App\Http\Controllers\MarcaVehiculoController;
 use App\Http\Controllers\AccesorioVehiculoController;
 use App\Http\Controllers\GraficoVehiculoController;
+use App\Http\Controllers\ModeloVehiculoController;
 use App\Http\Controllers\EquipamientoVehiculoController;
 use App\Http\Controllers\TarifaController;
 use App\Http\Controllers\PasswordResetController;
@@ -45,6 +46,9 @@ Route::resource('marcavehiculo', MarcaVehiculoController::class);
 Route::resource('accesoriovehiculo', AccesorioVehiculoController::class);
 Route::resource('equipamientovehiculo', EquipamientoVehiculoController::class);
 Route::resource('graficovehiculo', GraficoVehiculoController::class);
+Route::resource('modelovehiculo', ModeloVehiculoController::class);
+Route::put('/modelovehiculo/{id}', [ModeloVehiculoController::class, 'update'])->name('modelovehiculo.update');
+Route::get('/modelovehiculo/{id}/edit', [ModeloVehiculoController::class, 'edit'])->name('modelovehiculo.edit');
 
 Route::resource('tarifas', TarifaController::class);
 Route::get('forgot-password', [PasswordResetController::class, 'showForgotPasswordForm'])->name('password.request');

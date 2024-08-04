@@ -55,7 +55,7 @@
                         </li>
                     @endif
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('usergroups.index') }}">
+                        <a class="nav-link" href="{{ route('modelovehiculo.index') }}">
                             <i class="fas fa-car"></i> Modelos
                         </a>
                     </li>

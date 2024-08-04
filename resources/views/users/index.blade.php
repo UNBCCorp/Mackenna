@@ -29,8 +29,8 @@
                         <th>Numero Telefónico</th>
                         <th>Email</th>
                         <th></th>
-                        <th></th>
-                        <th></th>
+
+
                     </tr>
                 </thead>
                 <tbody>
@@ -42,23 +42,26 @@
                                 <td>{{ $user->numero_documento }}</td>
                                 <td>{{ $user->numero_telefonico }}</td>
                                 <td>{{ $user->email }}</td>
-                                <td>
-
-                                </td>
                             @endif
-                            @if (in_array(10, $permisosUsuario))
-                                <td class="action-buttons">
-                                    <!-- Habilita el botón de editar solo si el usuario tiene el permiso correspondiente -->
+
+
+
+                            <td class="action-buttons">
+                                <!-- Habilita el botón de editar solo si el usuario tiene el permiso correspondiente -->
+                                @if (in_array(10, $permisosUsuario))
                                     <a href="#" class="btn btn-info" data-bs-toggle="modal"
-                                        data-bs-target="#verUsersModal" data-id="{{ $user->id }}">
+                                        data-bs-target="#verUsersModal" data-id="{{ $user->id }}"
+                                        data-name="{{ $user->name }}" data-estado="{{ $user->estado }}"
+                                        data-apellido="{{ $user->apellido }}"
+                                        data-tipo-documento="{{ $user->tipo_documento }}"
+                                        data-tipo-usuario="{{ $user->tipo_usuario }}"
+                                        data-numero-documento="{{ $user->numero_documento }}"
+                                        data-numero-telefonico="{{ $user->numero_telefonico }}"
+                                        data-email="{{ $user->email }}">
                                         <i class="fas fa-eye"></i>
                                     </a>
-
-                                </td>
-                            @endif
-                            @if (in_array(19, $permisosUsuario))
-                                <td class="action-buttons">
-                                    <!-- Habilita el botón de editar solo si el usuario tiene el permiso correspondiente -->
+                                @endif
+                                @if (in_array(19, $permisosUsuario))
                                     <a href="#" class="btn btn-warning" data-bs-toggle="modal"
                                         data-bs-target="#editUsersModal" data-id="{{ $user->id }}"
                                         data-name="{{ $user->name }}" data-estado="{{ $user->estado }}"
@@ -70,20 +73,16 @@
                                         data-email="{{ $user->email }}">
                                         <i class="fas fa-edit"></i>
                                     </a>
-
-
-                                </td>
-                            @endif
-                            @if (in_array(20, $permisosUsuario))
-                                <td class="action-buttons">
-                                    <!-- Habilita el botón de eliminar solo si el usuario tiene el permiso correspondiente -->
+                                @endif
+                                @if (in_array(20, $permisosUsuario))
                                     <button type="button" class="btn btn-danger" data-bs-toggle="modal"
                                         data-bs-target="#confirmDeleteModal"
                                         data-action="{{ route('users.destroy', $user->id) }}">
                                         <i class="fas fa-trash"></i> <!-- Ícono de basura -->
                                     </button>
-                                </td>
-                            @endif
+                                @endif
+                            </td>
+
                         </tr>
                     @endforeach
                 </tbody>
@@ -152,38 +151,7 @@
             createUsersModal.addEventListener('hidden.bs.modal', function() {
                 window.location.reload();
             });
-            var verUsersModal = document.getElementById('verUsersModal');
-            if (verUsersModal) {
-                verUsersModal.addEventListener('show.bs.modal', function(event) {
-                    var button = event.relatedTarget;
-                    var userId = button.getAttribute('data-id');
 
-                    // Realiza una solicitud para obtener los datos del usuario
-                    fetch(`/users/data/${userId}`)
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.error) {
-                                console.error(data.error);
-                            } else {
-                                // Actualiza los elementos del modal con los datos del usuario
-                                document.getElementById('viewUserId').textContent = data.id;
-                                document.getElementById('viewUserName').textContent = data.name;
-                                document.getElementById('viewUserLastname').textContent = data.apellido;
-                                document.getElementById('viewUserTipoDocumento').textContent = data
-                                    .tipo_documento;
-                                document.getElementById('viewUserNumeroDocumento').textContent = data
-                                    .numero_documento;
-                                document.getElementById('viewUserNumeroTelefonico').textContent = data
-                                    .numero_telefonico;
-                                document.getElementById('viewUserEmail').textContent = data.email;
-                                document.getElementById('viewUserTipoUsuario').textContent = data
-                                    .tipo_usuario;
-                                document.getElementById('viewUserEstado').textContent = data.estado;
-                            }
-                        })
-                        .catch(error => console.error('Error al obtener los datos del usuario:', error));
-                });
-            }
             var editUsersModal = document.getElementById('editUsersModal');
             if (editUsersModal) {
                 editUsersModal.addEventListener('show.bs.modal', function(event) {
@@ -199,6 +167,35 @@
                     var userEstado = button.getAttribute('data-estado');
 
                     var form = document.getElementById('editUsersForm');
+                    form.action = `/users/${userId}`; // Actualiza la acción del formulario
+
+                    // Actualiza los campos del formulario
+                    form.querySelector('select[name="tipo_usuario"]').value = Tipousuario;
+                    form.querySelector('select[name="estado"]').value = userEstado;
+                    form.querySelector('input[name="name"]').value = userName;
+                    form.querySelector('input[name="apellido"]').value = userApellido;
+                    form.querySelector('select[name="tipo_documento"]').value = userTipoDocumento;
+                    form.querySelector('input[name="numero_documento"]').value = userNumeroDocumento;
+                    form.querySelector('input[name="numero_telefonico"]').value = userNumeroTelefonico;
+                    form.querySelector('input[name="email"]').value = userEmail;
+                });
+            }
+
+            var verUsersModal = document.getElementById('verUsersModal');
+            if (verUsersModal) {
+                verUsersModal.addEventListener('show.bs.modal', function(event) {
+                    var button = event.relatedTarget;
+                    var Tipousuario = button.getAttribute('data-tipo-usuario');
+                    var userId = button.getAttribute('data-id');
+                    var userName = button.getAttribute('data-name');
+                    var userApellido = button.getAttribute('data-apellido');
+                    var userTipoDocumento = button.getAttribute('data-tipo-documento');
+                    var userNumeroDocumento = button.getAttribute('data-numero-documento');
+                    var userNumeroTelefonico = button.getAttribute('data-numero-telefonico');
+                    var userEmail = button.getAttribute('data-email');
+                    var userEstado = button.getAttribute('data-estado');
+
+                    var form = document.getElementById('verUsersForm');
                     form.action = `/users/${userId}`; // Actualiza la acción del formulario
 
                     // Actualiza los campos del formulario
