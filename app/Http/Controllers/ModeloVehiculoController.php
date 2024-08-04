@@ -71,8 +71,9 @@ class ModeloVehiculoController extends Controller
             'accesorio_vehiculo' => 'nullable|array',
             'tipo_itv' => 'nullable|string|max:255',
             'grafico_vehiculo_id' => 'nullable|string|max:255',
-            'tipo_vehiculo' => 'nullable|string|max:255',
+            'tipo_vehiculo' => 'required|string|in:automovil,camion,camioneta,turismo,minibus',
             'marca' => 'nullable|string|max:255',
+            'grupo' => 'nullable|string|max:255',
         ]);
 
         if ($validator->fails()) {
@@ -94,6 +95,7 @@ class ModeloVehiculoController extends Controller
             'tipo_itv' => $request->input('tipo_itv'),
             'grafico_vehiculo_id' => $request->input('grafico_vehiculo_id'),
             'marca' => $request->input('marca'),
+            'grupo' => $request->input('grupo'),
         ]);
 
         return redirect()->route('modelovehiculo.index')
@@ -103,9 +105,11 @@ class ModeloVehiculoController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(ModeloVehiculo $modelo)
+    public function show($id)
     {
-        return view('modelovehiculo.show', compact('modelovehiculo'));
+        $modelo = ModeloVehiculo::findOrFail($id);
+
+        return view('ver', compact('modelo'));
     }
 
     /**
@@ -144,14 +148,15 @@ class ModeloVehiculoController extends Controller
             'accesorio_vehiculo' => 'array',
             'tipo_itv' => 'integer|exists:tipo_itv,id',
             'grafico_vehiculo_id' => 'integer|exists:grafico_vehiculo,id',
-            'tipo_vehiculo' => 'integer|exists:tipo_vehiculos,id',
+            'grupo' => 'integer|exists:tipo_vehiculos,id',
             'marca' => 'integer|exists:marca_vehiculo,id',
+            'tipo_vehiculo' => 'required|string|in:automovil,camion,camioneta,turismo,minibus',
         ]);
 
         // Actualización del registro de modelo
         $modelo->update([
             'nombre' => $request->input('nombre'),
-            'tipo_vehiculo' => $request->input('tipo_vehiculo') ?? [],  // Deja que Laravel maneje la conversión a JSON
+            'grupo' => $request->input('grupo') ?? [],  // Deja que Laravel maneje la conversión a JSON
             'tipo_combustible' => $request->input('tipo_combustible'),
             'capacidad_combustible' => $request->input('capacidad_combustible'),
             'tipo_caja' => $request->input('tipo_caja'),
@@ -160,6 +165,7 @@ class ModeloVehiculoController extends Controller
             'tipo_itv' => $request->input('tipo_itv'),
             'grafico_vehiculo_id' => $request->input('grafico_vehiculo_id'),
             'marca' => $request->input('marca'),
+            'tipo_vehiculo' => $request->input('tipo_vehiculo'),
         ]);
 
         return redirect()->route('modelovehiculo.index')

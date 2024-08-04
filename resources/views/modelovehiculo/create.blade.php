@@ -51,10 +51,10 @@
                                     $tipos = \App\Models\TipoVehiculo::all();
                                 @endphp
                                 <div class="col-md-6 mb-3">
-                                    <label for="provincia">Tipo de Vehículo</label>
+                                    <label for="provincia">Grupo de Vehículo</label>
                                     @if (isset($tipos) && $tipos->isNotEmpty())
-                                        <select id="tipo_vehiculo" name="tipo_vehiculo" class="form-control" required>
-                                            <option value="">Seleccione un tipo de vehículo</option>
+                                        <select id="grupo" name="grupo" class="form-control" required>
+                                            <option value="">Seleccione un grupo de vehículo</option>
                                             @foreach ($tipos as $tipo)
                                                 <option value="{{ $tipo->id }}">
                                                     {{ $tipo->nombre }}</option>
@@ -189,6 +189,19 @@
                                         }
                                     });
                                 </script>
+
+                                <div class="col-md-6 mb-3">
+                                    <label for="provincia">Tipo de Vehículo</label>
+                                    <select id="tipo_vehiculo" name="tipo_vehiculo" class="form-control" required>
+                                        <option value="">Seleccione un tipo de vehículo</option>
+                                        <option value="automovil">Automóvil</option>
+                                        <option value="camion">Camión</option>
+                                        <option value="camioneta">Camioneta</option>
+                                        <option value="turismo">Turismo</option>
+                                        <option value="minibus">Minibús</option>
+                                    </select>
+                                </div>
+
                             </div>
 
                             <div class="row">

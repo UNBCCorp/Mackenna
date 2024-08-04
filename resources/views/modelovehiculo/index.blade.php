@@ -41,7 +41,7 @@
                                 <td>{{ $modelo->id }}</td>
                                 <td>{{ $modelo->nombre }}</td>
                                 <td>{{ $modelo->marca }}</td>
-                                <td>{{ $tipo_vehiculo[$modelo->tipo_vehiculo]->nombre ?? 'No disponible' }}</td>
+                                <td>{{ $tipo_vehiculo[$modelo->grupo]->nombre ?? 'No disponible' }}</td>
                             @endif
 
 
@@ -60,7 +60,8 @@
                                         data-accesorio_vehiculo="{{ json_encode($modelo->accesorio_vehiculo) }}"
                                         data-tipo_itv="{{ $modelo->tipo_itv }}"
                                         data-grafico_vehiculo_id="{{ $modelo->grafico_vehiculo_id }}"
-                                        data-tipo_vehiculo="{{ $modelo->tipo_vehiculo }}">
+                                        data-tipo_vehiculo="{{ $modelo->tipo_vehiculo }}"
+                                        data-grupo="{{ $modelo->grupo }}">
                                         <i class="fas fa-eye"></i>
                                     </a>
                                 @endif
@@ -75,7 +76,8 @@
                                         data-accesorio_vehiculo="{{ json_encode($modelo->accesorio_vehiculo) }}"
                                         data-tipo_itv="{{ $modelo->tipo_itv }}"
                                         data-grafico_vehiculo_id="{{ $modelo->grafico_vehiculo_id }}"
-                                        data-tipo_vehiculo="{{ $modelo->tipo_vehiculo }}">
+                                        data-tipo_vehiculo="{{ $modelo->tipo_vehiculo }}"
+                                        data-grupo="{{ $modelo->grupo }}">
                                         <i class="fas fa-edit"></i>
                                     </a>
                                 @endif
@@ -174,6 +176,7 @@
                     var tipoItv = button.getAttribute('data-tipo_itv');
                     var graficoVehiculoId = button.getAttribute('data-grafico_vehiculo_id');
                     var tipoVehiculo = button.getAttribute('data-tipo_vehiculo');
+                    var grupo = button.getAttribute('data-grupo');
 
                     var form = document.getElementById('editModeloForm');
                     form.action = `/modelovehiculo/${modeloId}`; // Actualiza la acción del formulario
@@ -187,6 +190,7 @@
                     form.querySelector('select[name="tipo_caja"]').value = tipoCaja;
                     form.querySelector('select[name="tipo_itv"]').value = tipoItv;
                     form.querySelector('select[name="tipo_vehiculo"]').value = tipoVehiculo;
+                    form.querySelector('select[name="grupo"]').value = grupo;
 
                     // Actualizar los checkboxes para equipamientos y accesorios
                     updateCheckboxes('equipamiento_vehiculo[]', equipamientoVehiculo);
@@ -238,8 +242,9 @@
                     var tipoItv = button.getAttribute('data-tipo_itv');
                     var graficoVehiculoId = button.getAttribute('data-grafico_vehiculo_id');
                     var tipoVehiculo = button.getAttribute('data-tipo_vehiculo');
+                    var grupo = button.getAttribute('data-grupo');
 
-                    var form = document.getElementById('editModeloForm');
+                    var form = document.getElementById('verModeloForm');
                     form.action = `/modelovehiculo/${modeloId}`; // Actualiza la acción del formulario
 
                     // Actualiza los campos del formulario
@@ -251,6 +256,7 @@
                     form.querySelector('select[name="tipo_caja"]').value = tipoCaja;
                     form.querySelector('select[name="tipo_itv"]').value = tipoItv;
                     form.querySelector('select[name="tipo_vehiculo"]').value = tipoVehiculo;
+                    form.querySelector('select[name="grupo"]').value = grupo;
 
                     // Actualizar los checkboxes para equipamientos y accesorios
                     updateCheckboxes('equipamiento_vehiculo[]', equipamientoVehiculo);

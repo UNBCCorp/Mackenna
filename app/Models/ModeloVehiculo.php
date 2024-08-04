@@ -22,6 +22,7 @@ class ModeloVehiculo extends Model
         'tipo_itv',
         'grafico_vehiculo_id',
         'marca',
+        'grupo',
     ];
 
     protected $casts = [

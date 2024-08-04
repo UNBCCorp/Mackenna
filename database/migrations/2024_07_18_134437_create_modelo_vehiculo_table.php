@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('grafico_vehiculo_id');
             $table->string('tipo_vehiculo');
             $table->string('marca');
+            $table->string('grupo');
             $table->timestamps();
         });
     }

@@ -58,20 +58,19 @@
                                         $tipos = \App\Models\TipoVehiculo::all();
                                     @endphp
                                     <div class="col-md-6 mb-3">
-                                        <label for="edit_tipo_vehiculo">Tipo de Vehículo</label>
+                                        <label for="edit_grupo">Grupo de Vehículo</label>
                                         @if (isset($tipos) && $tipos->isNotEmpty())
-                                            <select id="edit_tipo_vehiculo" name="tipo_vehiculo" class="form-control"
-                                                required>
-                                                <option value="">Seleccione un tipo de vehículo</option>
+                                            <select id="edit_grupo" name="grupo" class="form-control" required>
+                                                <option value="">Seleccione un grupo de vehículo</option>
                                                 @foreach ($tipos as $tipo)
                                                     <option value="{{ $tipo->id }}"
-                                                        {{ $tipo->id == $modelo->tipo_vehiculo ? 'selected' : '' }}>
+                                                        {{ $tipo->id == $modelo->grupo ? 'selected' : '' }}>
                                                         {{ $tipo->nombre }}
                                                     </option>
                                                 @endforeach
                                             </select>
                                         @else
-                                            <p>No hay tipo vehiculo disponibles.</p>
+                                            <p>No hay grupo vehiculo disponibles.</p>
                                         @endif
                                     </div>
                                     @php
@@ -181,21 +180,36 @@
                                 <div class="row">
 
 
-                                    <div class="col-md-6 mb-3">
-                                        <div class="col-md-6 mb-3">
-                                            <img id="edit_grafico_imagen" src="" alt="Imagen del gráfico"
-                                                style="max-width: 250px; height: auto; display: none;">
-                                            <div id="error-message" style="display: none;">Error al cargar la imagen.
-                                            </div>
-                                        </div>
 
-                                        <script>
-                                            document.addEventListener('DOMContentLoaded', function() {
-                                                var selectElement = document.getElementById('edit_grafico');
-                                                var selectedOption = selectElement.options[selectElement.selectedIndex];
-                                                var rutaArchivo = selectedOption.getAttribute('data-ruta');
-                                                var imgElement = document.getElementById('edit_grafico_imagen');
-                                                var errorMessage = document.getElementById('error-message');
+                                    <div class="col-md-6 mb-3">
+                                        <img id="edit_grafico_imagen" src="" alt="Imagen del gráfico"
+                                            style="max-width: 250px; height: auto; display: none;">
+                                        <div id="error-message" style="display: none;">Error al cargar la imagen.
+                                        </div>
+                                    </div>
+
+
+                                    <script>
+                                        document.addEventListener('DOMContentLoaded', function() {
+                                            var selectElement = document.getElementById('edit_grafico');
+                                            var selectedOption = selectElement.options[selectElement.selectedIndex];
+                                            var rutaArchivo = selectedOption.getAttribute('data-ruta');
+                                            var imgElement = document.getElementById('edit_grafico_imagen');
+                                            var errorMessage = document.getElementById('error-message');
+
+                                            if (rutaArchivo) {
+                                                imgElement.src = rutaArchivo;
+                                                imgElement.style.display = 'block';
+                                                errorMessage.style.display = 'none';
+                                            } else {
+                                                imgElement.src = '';
+                                                imgElement.style.display = 'none';
+                                                errorMessage.style.display = 'block';
+                                            }
+
+                                            selectElement.addEventListener('change', function() {
+                                                selectedOption = this.options[this.selectedIndex];
+                                                rutaArchivo = selectedOption.getAttribute('data-ruta');
 
                                                 if (rutaArchivo) {
                                                     imgElement.src = rutaArchivo;
@@ -206,108 +220,117 @@
                                                     imgElement.style.display = 'none';
                                                     errorMessage.style.display = 'block';
                                                 }
-
-                                                selectElement.addEventListener('change', function() {
-                                                    selectedOption = this.options[this.selectedIndex];
-                                                    rutaArchivo = selectedOption.getAttribute('data-ruta');
-
-                                                    if (rutaArchivo) {
-                                                        imgElement.src = rutaArchivo;
-                                                        imgElement.style.display = 'block';
-                                                        errorMessage.style.display = 'none';
-                                                    } else {
-                                                        imgElement.src = '';
-                                                        imgElement.style.display = 'none';
-                                                        errorMessage.style.display = 'block';
-                                                    }
-                                                });
                                             });
-                                        </script>
+                                        });
+                                    </script>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="tipo_vehiculo" class="form-label">Tipo de Vehículo</label>
+                                        <select id="tipo_vehiculo" name="tipo_vehiculo" class="form-control"
+                                            required>
+                                            <option value="automovil"
+                                                {{ $modelo->tipo_vehiculo == 'automovil' ? 'selected' : '' }}>Automóvil
+                                            </option>
+                                            <option value="camion"
+                                                {{ $modelo->tipo_vehiculo == 'camion' ? 'selected' : '' }}>Camión
+                                            </option>
+                                            <option value="camioneta"
+                                                {{ $modelo->tipo_vehiculo == 'camioneta' ? 'selected' : '' }}>Camioneta
+                                            </option>
+                                            <option value="turismo"
+                                                {{ $modelo->tipo_vehiculo == 'turismo' ? 'selected' : '' }}>Turismo
+                                            </option>
+                                            <option value="minibus"
+                                                {{ $modelo->tipo_vehiculo == 'minibus' ? 'selected' : '' }}>Minibús
+                                            </option>
+                                        </select>
+
                                     </div>
 
-                                    <div class="row">
-                                        <div class="col-md-6 mb-3">
-                                            <label for="accesorios" class="form-label">Accesorios</label>
-                                            @php
-                                                $accesorios = \App\Models\AccesorioVehiculo::all();
-                                                $accesoriosSeleccionados = is_array($modelo->accesorio_vehiculo)
-                                                    ? $modelo->accesorio_vehiculo
-                                                    : json_decode($modelo->accesorio_vehiculo, true) ?? [];
-                                            @endphp
-                                            @if (isset($accesorios) && $accesorios->isNotEmpty())
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox"
-                                                        id="select_all_accesorios">
-                                                    <label class="form-check-label" for="select_all_accesorios">
-                                                        Seleccionar todos
-                                                    </label>
-                                                </div>
-                                                <br />
-                                                <div class="row g-3">
-                                                    @foreach ($accesorios as $accesorio)
-                                                        <div class="col-md-6">
-                                                            <div class="form-check">
-                                                                <input class="form-check-input accesorios-checkbox"
-                                                                    type="checkbox" name="accesorio_vehiculo[]"
-                                                                    value="{{ $accesorio->id }}"
-                                                                    id="accesorios_{{ $accesorio->id }}"
-                                                                    {{ in_array($accesorio->id, $accesoriosSeleccionados) ? 'checked' : '' }}>
-                                                                <label class="form-check-label"
-                                                                    for="accesorios_{{ $accesorio->id }}">
-                                                                    {{ $accesorio->nombre }}
-                                                                </label>
-                                                            </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="accesorios" class="form-label">Accesorios</label>
+                                        @php
+                                            $accesorios = \App\Models\AccesorioVehiculo::all();
+                                            $accesoriosSeleccionados = is_array($modelo->accesorio_vehiculo)
+                                                ? $modelo->accesorio_vehiculo
+                                                : json_decode($modelo->accesorio_vehiculo, true) ?? [];
+                                        @endphp
+                                        @if (isset($accesorios) && $accesorios->isNotEmpty())
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox"
+                                                    id="select_all_accesorios">
+                                                <label class="form-check-label" for="select_all_accesorios">
+                                                    Seleccionar todos
+                                                </label>
+                                            </div>
+                                            <br />
+                                            <div class="row g-3">
+                                                @foreach ($accesorios as $accesorio)
+                                                    <div class="col-md-6">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input accesorios-checkbox"
+                                                                type="checkbox" name="accesorio_vehiculo[]"
+                                                                value="{{ $accesorio->id }}"
+                                                                id="accesorios_{{ $accesorio->id }}"
+                                                                {{ in_array($accesorio->id, $accesoriosSeleccionados) ? 'checked' : '' }}>
+                                                            <label class="form-check-label"
+                                                                for="accesorios_{{ $accesorio->id }}">
+                                                                {{ $accesorio->nombre }}
+                                                            </label>
                                                         </div>
-                                                    @endforeach
-                                                </div>
-                                            @else
-                                                <p>No hay accesorios disponibles.</p>
-                                            @endif
-                                        </div>
-                                        <div class="col-md-6 mb-3">
-                                            <label for="tipo_vehiculo" class="form-label">Equipamientos</label>
-                                            @php
-                                                $equipamientos = \App\Models\EquipamientoVehiculo::all();
-                                                $equipamientosSeleccionados = is_array($modelo->equipamiento_vehiculo)
-                                                    ? $modelo->equipamiento_vehiculo
-                                                    : json_decode($modelo->equipamiento_vehiculo, true) ?? [];
-                                            @endphp
-                                            @if (isset($equipamientos) && $equipamientos->isNotEmpty())
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox"
-                                                        id="select_all_equipamientos">
-                                                    <label class="form-check-label" for="select_all_equipamientos">
-                                                        Seleccionar todos
-                                                    </label>
-                                                </div>
-                                                <br />
-                                                <div class="row g-3">
-                                                    @foreach ($equipamientos as $equipamiento)
-                                                        <div class="col-md-6">
-                                                            <div class="form-check">
-                                                                <input class="form-check-input equipamiento-checkbox"
-                                                                    type="checkbox" name="equipamiento_vehiculo[]"
-                                                                    value="{{ $equipamiento->id }}"
-                                                                    id="equipamiento_{{ $equipamiento->id }}"
-                                                                    {{ in_array($equipamiento->id, $equipamientosSeleccionados) ? 'checked' : '' }}>
-                                                                <label class="form-check-label"
-                                                                    for="equipamiento_{{ $equipamiento->id }}">
-                                                                    {{ $equipamiento->nombre }}
-                                                                </label>
-                                                            </div>
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                        @else
+                                            <p>No hay accesorios disponibles.</p>
+                                        @endif
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="tipo_vehiculo" class="form-label">Equipamientos</label>
+                                        @php
+                                            $equipamientos = \App\Models\EquipamientoVehiculo::all();
+                                            $equipamientosSeleccionados = is_array($modelo->equipamiento_vehiculo)
+                                                ? $modelo->equipamiento_vehiculo
+                                                : json_decode($modelo->equipamiento_vehiculo, true) ?? [];
+                                        @endphp
+                                        @if (isset($equipamientos) && $equipamientos->isNotEmpty())
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox"
+                                                    id="select_all_equipamientos">
+                                                <label class="form-check-label" for="select_all_equipamientos">
+                                                    Seleccionar todos
+                                                </label>
+                                            </div>
+                                            <br />
+                                            <div class="row g-3">
+                                                @foreach ($equipamientos as $equipamiento)
+                                                    <div class="col-md-6">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input equipamiento-checkbox"
+                                                                type="checkbox" name="equipamiento_vehiculo[]"
+                                                                value="{{ $equipamiento->id }}"
+                                                                id="equipamiento_{{ $equipamiento->id }}"
+                                                                {{ in_array($equipamiento->id, $equipamientosSeleccionados) ? 'checked' : '' }}>
+                                                            <label class="form-check-label"
+                                                                for="equipamiento_{{ $equipamiento->id }}">
+                                                                {{ $equipamiento->nombre }}
+                                                            </label>
                                                         </div>
-                                                    @endforeach
-                                                </div>
-                                            @else
-                                                <p>No hay equipamientos disponibles.</p>
-                                            @endif
-                                        </div>
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                        @else
+                                            <p>No hay equipamientos disponibles.</p>
+                                        @endif
                                     </div>
+                                </div>
 
 
-                                    <div class="text-center pt-1 mb-5 pb-1">
-                                        <button class="btn btn-primary btn-block" type="submit">Actualizar</button>
-                                    </div>
+                                <div class="text-center pt-1 mb-5 pb-1">
+                                    <button class="btn btn-primary btn-block" type="submit">Actualizar</button>
+                                </div>
                             </form>
                         @else
                             <p>No se encontró el modelo solicitado.</p>
