@@ -136,28 +136,28 @@
             </li>
         </ul>
     </div>
-    <!-- User Profile Dropdown -->
+
     <!-- User Profile Dropdown -->
     <div class="dropdown profile-dropdown">
         @if (Auth::check())
             <button class="btn btn-outline-danger dropdown-toggle" type="button" id="dropdownMenuButton"
-                data-bs-toggle="dropdown">
+                data-bs-toggle="dropdown" aria-expanded="false">
                 {{ Auth::user()->name }}
             </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <li><a class="dropdown-item" href="#">Editar Perfil</a></li>
+                <li>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                        @csrf
+                    </form>
+                    <a class="dropdown-item" href="#"
+                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Cerrar
+                        Sesión</a>
+                </li>
+            </ul>
         @else
             <a href="{{ route('login') }}" class="btn btn-outline-danger">Ingresar</a>
         @endif
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="dropdown-menu2">
-            <li><a class="dropdown-item" href="#">Editar Perfil</a></li>
-            <li>
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                    @csrf
-                </form>
-                <a class="dropdown-item" href="#"
-                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Cerrar
-                    Sesión</a>
-            </li>
-        </ul>
     </div>
 
     <div class="content">
@@ -169,16 +169,12 @@
     @stack('modals')
     @livewireScripts
 </body>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
-    integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous">
-</script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-    integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" crossorigin="anonymous">
 </script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
-    integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous">
-</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" crossorigin="anonymous"></script>
+
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         var configLink = document.getElementById('configLink');
@@ -193,11 +189,13 @@
             configMenu.classList.toggle('hidden');
             toggleIcon.classList.toggle('rotate');
         });
+
         configLink2.addEventListener('click', function(event) {
             event.preventDefault();
             configMenu2.classList.toggle('hidden');
             toggleIcon2.classList.toggle('rotate');
         });
+
         // Ensure that dropdowns are initialized
         var dropdowns = document.querySelectorAll('.dropdown-toggle');
         dropdowns.forEach(function(dropdown) {
