@@ -54,11 +54,13 @@
                             </a>
                         </li>
                     @endif
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('modelovehiculo.index') }}">
-                            <i class="fas fa-car"></i> Modelos
-                        </a>
-                    </li>
+                    @if (in_array('37', $permisosUsuario))
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('modelovehiculo.index') }}">
+                                <i class="fas fa-car"></i> Modelos
+                            </a>
+                        </li>
+                    @endif
                     @if (in_array('25', $permisosUsuario))
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('accesoriovehiculo.index') }}">

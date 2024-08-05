@@ -6,7 +6,7 @@
         <br />
 
         <!-- Habilita el botón de crear solo si el usuario tiene el permiso correspondiente -->
-        @if (in_array(13, $permisosUsuario))
+        @if (in_array(38, $permisosUsuario))
             <div class="d-flex justify-content-end">
                 <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createModeloModal">+Crear
                     Modelo</a>
@@ -37,7 +37,7 @@
                 <tbody>
                     @foreach ($modelos as $modelo)
                         <tr>
-                            @if (in_array(14, $permisosUsuario))
+                            @if (in_array(37, $permisosUsuario))
                                 <td>{{ $modelo->id }}</td>
                                 <td>{{ $modelo->nombre }}</td>
                                 <td>{{ $modelo->marca }}</td>
@@ -49,7 +49,7 @@
 
                             <td class="action-buttons">
                                 <!-- Habilita el botón de editar solo si el usuario tiene el permiso correspondiente -->
-                                @if (in_array(15, $permisosUsuario))
+                                @if (in_array(37, $permisosUsuario))
                                     <a href="#" class="btn btn-info" data-bs-toggle="modal"
                                         data-bs-target="#verModeloModal" data-id="{{ $modelo->id }}"
                                         data-name="{{ $modelo->nombre }}" data-marca="{{ $modelo->marca }}"
@@ -65,7 +65,7 @@
                                         <i class="fas fa-eye"></i>
                                     </a>
                                 @endif
-                                @if (in_array(15, $permisosUsuario))
+                                @if (in_array(39, $permisosUsuario))
                                     <a href="#" class="btn btn-warning" data-bs-toggle="modal"
                                         data-bs-target="#editModeloModal" data-id="{{ $modelo->id }}"
                                         data-name="{{ $modelo->nombre }}" data-marca="{{ $modelo->marca }}"
@@ -81,7 +81,7 @@
                                         <i class="fas fa-edit"></i>
                                     </a>
                                 @endif
-                                @if (in_array(16, $permisosUsuario))
+                                @if (in_array(40, $permisosUsuario))
                                     <button type="button" class="btn btn-danger" data-bs-toggle="modal"
                                         data-bs-target="#confirmDeleteModal"
                                         data-action="{{ route('modelovehiculo.destroy', $modelo->id) }}">
