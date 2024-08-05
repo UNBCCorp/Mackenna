@@ -24,7 +24,8 @@
                             @method('PUT')
                             <div class="mb-3">
                                 <label for="edit_name" class="form-label">Nombre</label>
-                                <input type="text" name="nombre" id="edit_name" class="form-control" required />
+                                <input type="text" name="nombre" id="edit_name" class="form-control" required
+                                    maxlength="20" />
                                 <div class="error-message text-danger" id="editNameError"></div>
                             </div>
                             <div class="text-center pt-1 mb-5 pb-1">

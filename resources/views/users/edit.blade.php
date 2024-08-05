@@ -58,7 +58,7 @@
                                     <div data-mdb-input-init class="form-outline">
                                         <label class="form-label" for="name">Nombre</label>
                                         <input type="text" name="name" id="name2" class="form-control"
-                                            required />
+                                            required maxlength="20" />
                                         <span class="text-danger" id="nameError"></span>
                                     </div>
                                 </div>
@@ -66,7 +66,7 @@
                                     <div data-mdb-input-init class="form-outline">
                                         <label class="form-label" for="apellido">Apellido</label>
                                         <input type="text" name="apellido" id="apellido2" class="form-control"
-                                            required />
+                                            required maxlength="20" />
                                         <span class="text-danger" id="apellidoError"></span>
                                     </div>
                                 </div>
@@ -89,7 +89,7 @@
                                     <div data-mdb-input-init class="form-outline">
                                         <label class="form-label" for="numero_documento">Número de Documento</label>
                                         <input type="text" name="numero_documento" id="numero_documento2"
-                                            class="form-control" required />
+                                            class="form-control" required maxlength="10" />
                                         <span class="text-danger" id="numeroDocumentoError"></span>
                                     </div>
                                 </div>
@@ -99,7 +99,7 @@
                                     <div data-mdb-input-init class="form-outline">
                                         <label class="form-label" for="numero_telefonico">Número Telefónico</label>
                                         <input type="text" name="numero_telefonico" id="numero_telefonico2"
-                                            class="form-control" required />
+                                            class="form-control" required maxlength="10" />
                                         <span class="text-danger" id="numeroTelefonicoError"></span>
                                     </div>
                                 </div>
