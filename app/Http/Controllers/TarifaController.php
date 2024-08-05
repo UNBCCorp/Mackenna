@@ -67,7 +67,7 @@ class TarifaController extends Controller
     {
         // Validación de los datos recibidos
         $request->validate([
-            'nombre' => 'required|string|max:255',
+            'nombre' => 'required|string|max:30',
             'porcentaje' => 'required|numeric|between:0,999.99',
             'tipo_vehiculo' => 'array',
             'tipo_vehiculo.*' => 'exists:tipo_vehiculos,id',

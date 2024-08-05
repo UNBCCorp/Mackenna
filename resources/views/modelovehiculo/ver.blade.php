@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>Editar Modelo</title>
+    <title>Modelo</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
@@ -10,18 +10,17 @@
 
 <body>
     <div class="container">
-        <div class="modal fade" id="editModeloModal" tabindex="-1" aria-labelledby="editModeloModalLabel"
-            aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal fade" id="verModeloModal" tabindex="-1" aria-labelledby="verModeloModalLabel" aria-hidden="true"
+            data-bs-backdrop="static" data-bs-keyboard="false">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="editModeloModalLabel">Editar Modelo</h5>
+                        <h5 class="modal-title" id="editModeloModalLabel">Modelo</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         @if (isset($modelo) && $modelo)
-                            <form id="editModeloForm" action="{{ route('modelovehiculo.update', $modelo->id) }}"
-                                method="POST">
+                            <form id="verModeloForm" action="" method="POST">
                                 @csrf
                                 @method('PUT')
                                 <input type="hidden" name="id" id="modeloId" />
@@ -30,7 +29,7 @@
                                         <label for="edit_name" class="form-label">Nombre</label>
                                         <input type="text" name="nombre" class="form-control"
                                             placeholder="Ingresar Nombre" required maxlength="20"
-                                            value="{{ $modelo->nombre }}" />
+                                            value="{{ $modelo->nombre }}" readonly />
                                         <div class="error-message text-danger" id="nameError"></div>
                                     </div>
                                     @php
@@ -39,7 +38,8 @@
                                     <div class="col-md-6 mb-3">
                                         <label for="edit_marca">Marca</label>
                                         @if (isset($marcas) && $marcas->isNotEmpty())
-                                            <select id="edit_marca" name="marca" class="form-control" required>
+                                            <select id="edit_marca" name="marca" class="form-control" required
+                                                disabled>
                                                 <option value="">Seleccione una marca</option>
                                                 @foreach ($marcas as $marca)
                                                     <option value="{{ $marca->id }}"
@@ -60,7 +60,8 @@
                                     <div class="col-md-6 mb-3">
                                         <label for="edit_grupo">Grupo de Vehículo</label>
                                         @if (isset($tipos) && $tipos->isNotEmpty())
-                                            <select id="edit_grupo" name="grupo" class="form-control" required>
+                                            <select id="edit_grupo" name="grupo" class="form-control" required
+                                                disabled>
                                                 <option value="">Seleccione un grupo de vehículo</option>
                                                 @foreach ($tipos as $tipo)
                                                     <option value="{{ $tipo->id }}"
@@ -70,7 +71,7 @@
                                                 @endforeach
                                             </select>
                                         @else
-                                            <p>No hay grupo vehiculo disponibles.</p>
+                                            <p>No hay tipo vehiculo disponibles.</p>
                                         @endif
                                     </div>
                                     @php
@@ -79,7 +80,8 @@
                                     <div class="col-md-6 mb-3">
                                         <label for="edit_tipo_caja">Tipo de Transmisión</label>
                                         @if (isset($cajas) && $cajas->isNotEmpty())
-                                            <select id="edit_tipo_caja" name="tipo_caja" class="form-control" required>
+                                            <select id="edit_tipo_caja" name="tipo_caja" class="form-control" required
+                                                disabled>
                                                 <option value="">Seleccione un tipo de caja</option>
                                                 @foreach ($cajas as $caja)
                                                     <option value="{{ $caja->id }}"
@@ -103,7 +105,7 @@
                                         @if (isset($combustibles) && $combustibles->isNotEmpty())
 
                                             <select id="edit_tipo_combustible" name="tipo_combustible"
-                                                class="form-control" required>
+                                                class="form-control" required disabled>
                                                 <option value="">Seleccione un tipo de combustible</option>
                                                 @foreach ($combustibles as $combustible)
                                                     <option value="{{ $combustible->id }}"
@@ -120,7 +122,7 @@
                                         <label for="edit_capacidad_combustible" class="form-label">Capacidad</label>
                                         <input type="number" name="capacidad_combustible" class="form-control"
                                             placeholder="Ingresar Capacidad" required oninput="formatNumber(this)"
-                                            value="{{ $modelo->capacidad_combustible }}" />
+                                            value="{{ $modelo->capacidad_combustible }}" readonly />
                                         <div class="error-message text-danger" id="nameError"></div>
                                         <script>
                                             function formatNumber(input) {
@@ -139,10 +141,10 @@
                                     @endphp
 
                                     <div class="col-md-6 mb-3">
-                                        <label for="edit_grafico">Referencia vehículo</label>
+                                        <label for="edit_grafico2">Referencia vehículo</label>
                                         @if (isset($graficos) && $graficos->isNotEmpty())
-                                            <select id="edit_grafico" name="grafico_vehiculo_id" class="form-control"
-                                                required>
+                                            <select id="edit_grafico2" name="grafico_vehiculo_id" class="form-control"
+                                                required disabled>
                                                 <option value="">Seleccione una referencia</option>
                                                 @foreach ($graficos as $grafico)
                                                     <option value="{{ $grafico->id }}"
@@ -162,7 +164,8 @@
                                     <div class="col-md-6 mb-3">
                                         <label for="tipo_itv">Tipo de Revisión Tecnomecánica</label>
                                         @if (isset($itvs) && $itvs->isNotEmpty())
-                                            <select id="tipo_itv" name="tipo_itv" class="form-control" required>
+                                            <select id="tipo_itv" name="tipo_itv" class="form-control" required
+                                                disabled>
                                                 @foreach ($itvs as $itv)
                                                     <option value="{{ $itv->id }}"
                                                         {{ $itv->id == $modelo->tipo_itv ? 'selected' : '' }}>
@@ -180,21 +183,19 @@
                                 <div class="row">
 
 
-
                                     <div class="col-md-6 mb-3">
-                                        <img id="edit_grafico_imagen" src="" alt="Imagen del gráfico"
+                                        <img id="edit_grafico_imagen2" src="" alt="Imagen del gráfico"
                                             style="max-width: 250px; height: auto; display: none;">
                                         <div id="error-message" style="display: none;">Error al cargar la imagen.
                                         </div>
                                     </div>
 
-
                                     <script>
                                         document.addEventListener('DOMContentLoaded', function() {
-                                            var selectElement = document.getElementById('edit_grafico');
+                                            var selectElement = document.getElementById('edit_grafico2');
                                             var selectedOption = selectElement.options[selectElement.selectedIndex];
                                             var rutaArchivo = selectedOption.getAttribute('data-ruta');
-                                            var imgElement = document.getElementById('edit_grafico_imagen');
+                                            var imgElement = document.getElementById('edit_grafico_imagen2');
                                             var errorMessage = document.getElementById('error-message');
 
                                             if (rutaArchivo) {
@@ -225,8 +226,8 @@
                                     </script>
                                     <div class="col-md-6 mb-3">
                                         <label for="tipo_vehiculo" class="form-label">Tipo de Vehículo</label>
-                                        <select id="tipo_vehiculo" name="tipo_vehiculo" class="form-control"
-                                            required>
+                                        <select id="tipo_vehiculo" name="tipo_vehiculo" class="form-control" required
+                                            disabled>
                                             <option value="automovil"
                                                 {{ $modelo->tipo_vehiculo == 'automovil' ? 'selected' : '' }}>Automóvil
                                             </option>
@@ -244,8 +245,8 @@
                                             </option>
                                         </select>
 
-                                    </div>
 
+                                    </div>
                                 </div>
 
                                 <div class="row">
@@ -258,13 +259,7 @@
                                                 : json_decode($modelo->accesorio_vehiculo, true) ?? [];
                                         @endphp
                                         @if (isset($accesorios) && $accesorios->isNotEmpty())
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox"
-                                                    id="select_all_accesorios">
-                                                <label class="form-check-label" for="select_all_accesorios">
-                                                    Seleccionar todos
-                                                </label>
-                                            </div>
+
                                             <br />
                                             <div class="row g-3">
                                                 @foreach ($accesorios as $accesorio)
@@ -280,6 +275,8 @@
                                                                 {{ $accesorio->nombre }}
                                                             </label>
                                                         </div>
+
+
                                                     </div>
                                                 @endforeach
                                             </div>
@@ -296,13 +293,7 @@
                                                 : json_decode($modelo->equipamiento_vehiculo, true) ?? [];
                                         @endphp
                                         @if (isset($equipamientos) && $equipamientos->isNotEmpty())
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox"
-                                                    id="select_all_equipamientos">
-                                                <label class="form-check-label" for="select_all_equipamientos">
-                                                    Seleccionar todos
-                                                </label>
-                                            </div>
+
                                             <br />
                                             <div class="row g-3">
                                                 @foreach ($equipamientos as $equipamiento)
@@ -318,6 +309,9 @@
                                                                 {{ $equipamiento->nombre }}
                                                             </label>
                                                         </div>
+
+
+
                                                     </div>
                                                 @endforeach
                                             </div>
@@ -326,11 +320,13 @@
                                         @endif
                                     </div>
                                 </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Cerrar</button>
 
-
-                                <div class="text-center pt-1 mb-5 pb-1">
-                                    <button class="btn btn-primary btn-block" type="submit">Actualizar</button>
                                 </div>
+
+
                             </form>
                         @else
                             <p>No se encontró el modelo solicitado.</p>

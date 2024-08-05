@@ -19,19 +19,19 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form action="{{ route('surcursales.store') }}" method="POST">
+                        <form id="createSurcursalForm" action="{{ route('surcursales.store') }}" method="POST">
                             @csrf
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label for="name" class="form-label">Nombre</label>
                                     <input type="text" name="nombre" id="name" class="form-control"
-                                        placeholder="Ingresar Nombre" required />
+                                        placeholder="Ingresar Nombre" required maxlength="20" />
                                     <div class="error-message text-danger" id="nameError"></div>
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="direccion" class="form-label">Dirección</label>
                                     <input type="text" name="direccion" id="direccion" class="form-control"
-                                        placeholder="Ingresar Dirección" required />
+                                        placeholder="Ingresar Dirección" required maxlength="20" />
                                     <div class="error-message text-danger" id="direccionError"></div>
                                 </div>
                             </div>
@@ -79,35 +79,37 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            var createSurcursalModalLabel = document.getElementById('createSurcursalModalLabel');
+            var nameInput = document.getElementById('name');
+            var nameError = document.getElementById('nameError');
+            var direccionInput = document.getElementById('direccion');
+            var direccionError = document.getElementById('direccionError');
+            var form = document.getElementById('createSurcursalForm');
 
-            createSurcursalModalLabel.addEventListener('submit', function(e) {
-                e.preventDefault();
-                var form = this;
-                var formData = new FormData(form);
-                var request = new XMLHttpRequest();
-                request.open(form.method, form.action, true);
-                request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-                request.onreadystatechange = function() {
-                    if (this.readyState === 4 && this.status === 200) {
-                        var response = JSON.parse(this.responseText);
-                        if (response.success) {
-                            form.reset();
-                            var modal = bootstrap.Modal.getInstance(document.getElementById(
-                                'createSurcursalModalLabel'));
-                            modal.hide();
-                        } else {
-                            // Manejar errores
-                            document.getElementById('nameError').textContent = response.errors.name;
-                        }
-                    }
-                };
-                request.send(formData);
+            nameInput.addEventListener('input', function() {
+                if (nameInput.value.length > 20) {
+                    nameInput.value = nameInput.value.slice(0, 20);
+                    nameError.textContent = 'Has superado el límite de 20 caracteres';
+                } else {
+                    nameError.textContent = '';
+                }
+            });
+            direccionInput.addEventListener('input', function() {
+                if (direccionInput.value.length > 20) {
+                    direccionInput.value = direccionInput.value.slice(0, 20);
+                    nameError.textContent = 'Has superado el límite de 20 caracteres';
+                } else {
+                    nameError.textContent = '';
+                }
+            });
+
+            form.addEventListener('submit', function(e) {
+                if (nameInput.value.length > 20) {
+                    e.preventDefault();
+                    nameError.textContent = 'El nombre no puede tener más de 20 caracteres';
+                }
             });
         });
     </script>
-
-
 </body>
 
 </html>

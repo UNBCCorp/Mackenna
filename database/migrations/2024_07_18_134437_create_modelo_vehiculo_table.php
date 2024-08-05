@@ -14,22 +14,16 @@ return new class extends Migration
         Schema::create('modelo_vehiculo', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
-            $table->string('placa');
-            $table->date('fecha_modelo');
-            $table->string('cilindraje');
-            $table->foreignId('tipo_combustible_id')->constrained('tipo_combustible');
+            $table->string('tipo_combustible');
             $table->string('capacidad_combustible');
-            $table->float('cantidad_combustible_actual');
-            $table->float('kilometraje_actual');
-            $table->float('kilometraje_anterior');
-            $table->foreignId('tipo_caja_id')->constrained('tipo_caja');
-            $table->foreignId('equipamiento_vehiculo_id')->nullable()->constrained('equipamiento_vehiculo');
-            $table->foreignId('accesorio_vehiculo_id')->nullable()->constrained('accesorio_vehiculo');
-            $table->foreignId('tipo_itv_id')->nullable()->constrained('tipo_itv');
-            $table->string('estado_actual')->nullable()->constrained('estado_vehiculo');
-            $table->text('reparaciones')->nullable();
-            $table->text('observaciones')->nullable();
-            $table->foreignId('grafico_vehiculo_id')->nullable()->constrained('grafico_vehiculo');
+            $table->string('tipo_caja');
+            $table->string('equipamiento_vehiculo');
+            $table->string('accesorio_vehiculo');
+            $table->string('tipo_itv');
+            $table->string('grafico_vehiculo_id');
+            $table->string('tipo_vehiculo');
+            $table->string('marca');
+            $table->string('grupo');
             $table->timestamps();
         });
     }

@@ -60,7 +60,7 @@ class GraficoVehiculoController extends Controller
     {
         // Validar el formulario
         $request->validate([
-            'nombre' => 'required|string|max:255',
+            'nombre' => 'required|string|max:30',
             'ruta_archivo' => 'required|file|mimes:jpg,jpeg,png,gif,webp|max:2048', // Validación del archivo
         ]);
 

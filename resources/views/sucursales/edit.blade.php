@@ -26,13 +26,13 @@
                                 <div class="col-md-6 mb-3">
                                     <label for="name" class="form-label">Nombre</label>
                                     <input type="text" name="nombre" id="edit_name" class="form-control"
-                                        placeholder="Ingresar Nombre" required />
+                                        placeholder="Ingresar Nombre" required maxlength="20" />
                                     <div class="error-message text-danger" id="nameError"></div>
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="direccion" class="form-label">Dirección</label>
                                     <input type="text" name="direccion" id="edit_direccion" class="form-control"
-                                        placeholder="Ingresar Dirección" required />
+                                        placeholder="Ingresar Dirección" required maxlength="20" />
                                     <div class="error-message text-danger" id="direccionError"></div>
                                 </div>
                             </div>
@@ -103,6 +103,36 @@
                 // Seleccionar la opción en el select para 'tipo_sucursal'
                 var tipoSelect = document.getElementById('edit_tipo');
                 tipoSelect.value = tipo; // Asignar valor al select
+            });
+            var editNameInput = document.getElementById('edit_name');
+            var editNameError = document.getElementById('nameError');
+            var editdireccionInput = document.getElementById('edit_direccion');
+            var editdireccionError = document.getElementById('direccionError');
+            var editForm = document.getElementById('editAccesoriovehiculoForm');
+
+            editNameInput.addEventListener('input', function() {
+                if (editNameInput.value.length > 20) {
+                    editNameInput.value = editNameInput.value.slice(0, 20);
+                    editNameError.textContent = 'Has superado el límite de 20 caracteres';
+                } else {
+                    editNameError.textContent = '';
+                }
+            });
+
+            editdireccionInput.addEventListener('input', function() {
+                if (editdireccionInput.value.length > 20) {
+                    editdireccionInput.value = editdireccionInput.value.slice(0, 20);
+                    editdireccionError.textContent = 'Has superado el límite de 20 caracteres';
+                } else {
+                    editdireccionError.textContent = '';
+                }
+            });
+
+            editForm.addEventListener('submit', function(e) {
+                if (editNameInput.value.length > 20) {
+                    e.preventDefault();
+                    editNameError.textContent = 'El nombre no puede tener más de 20 caracteres';
+                }
             });
         });
     </script>

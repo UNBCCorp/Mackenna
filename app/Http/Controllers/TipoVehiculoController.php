@@ -52,7 +52,7 @@ class TipoVehiculoController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nombre' => 'required|string|max:255',
+            'nombre' => 'required|string|max:30',
         ]);
 
         TipoVehiculo::create($request->all());

@@ -25,7 +25,8 @@
                             @method('PUT')
                             <div class="mb-3">
                                 <label for="edit_name" class="form-label">Nombre</label>
-                                <input type="text" name="nombre" id="edit_name" class="form-control" required />
+                                <input type="text" name="nombre" id="edit_name" class="form-control" required
+                                    maxlength="20" />
                                 <div class="error-message text-danger" id="editNameError"></div>
                             </div>
                             <div class="text-center pt-1 mb-5 pb-1">
@@ -49,11 +50,31 @@
                 var id = button.getAttribute('data-id'); // Obtener ID
                 var name = button.getAttribute('data-name'); // Obtener nombre
 
-                // Actualizar el formulario con los datos de la marca de vehículo
+                // Actualizar el formulario con los datos del accesorio de vehículo
                 var form = document.getElementById('editAccesoriovehiculoForm');
                 form.action = "{{ route('accesoriovehiculo.update', '') }}/" +
                     id; // Reemplazar el ID en la acción del formulario
                 document.getElementById('edit_name').value = name; // Llenar el input con el nombre
+            });
+
+            var editNameInput = document.getElementById('edit_name');
+            var editNameError = document.getElementById('editNameError');
+            var editForm = document.getElementById('editAccesoriovehiculoForm');
+
+            editNameInput.addEventListener('input', function() {
+                if (editNameInput.value.length > 20) {
+                    editNameInput.value = editNameInput.value.slice(0, 20);
+                    editNameError.textContent = 'Has superado el límite de 20 caracteres';
+                } else {
+                    editNameError.textContent = '';
+                }
+            });
+
+            editForm.addEventListener('submit', function(e) {
+                if (editNameInput.value.length > 20) {
+                    e.preventDefault();
+                    editNameError.textContent = 'El nombre no puede tener más de 20 caracteres';
+                }
             });
         });
     </script>
