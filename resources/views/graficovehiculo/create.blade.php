@@ -37,7 +37,7 @@
                                 <div class="error-message text-danger" id="nameError"></div>
                             </div>
                             <div class="mb-3">
-                                <label for="archivo" class="form-label">Archivo</label>
+                                <label for="archivo" class="form-label">Imagen</label>
                                 <input type="file" name="ruta_archivo" id="archivo" class="form-control"
                                     accept=".jpg, .jpeg, .png, .webp, .gif" required />
                                 <div class="error-message text-danger" id="archivoError"></div>

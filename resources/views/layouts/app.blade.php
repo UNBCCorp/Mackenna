@@ -32,7 +32,21 @@
                 <a class="nav-link" href="{{ route('dashboard') }}"><i class="fas fa-home"></i>Inicio</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#"> <i class="fas fa-store"></i>Rental</a>
+                <a class="nav-link" href="#" id="configLink3">
+                    <i class="fas fa-store"></i> Rental
+                    <i class="fas fa-chevron-down toggle-icon" id="toggleIcon3"></i>
+                </a>
+                <ul class="nav hidden" id="configMenu3" style="flex-direction: column;">
+
+                    @if (in_array('14', $permisosUsuario))
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('tarifas.index') }}">
+                                <i class="fas fa-money-bill-wave"></i> Tarifas
+                            </a>
+                        </li>
+                    @endif
+
+                </ul>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#" id="configLink2">
@@ -40,6 +54,13 @@
                     <i class="fas fa-chevron-down toggle-icon" id="toggleIcon2"></i>
                 </a>
                 <ul class="nav hidden" id="configMenu2" style="flex-direction: column;">
+                    @if (in_array('37', $permisosUsuario))
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('modelovehiculo.index') }}">
+                                <i class="fas fa-car-side"></i> Flota
+                            </a>
+                        </li>
+                    @endif
                     @if (in_array('7', $permisosUsuario))
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('tipovehiculo.index') }}">
@@ -71,14 +92,14 @@
                     @if (in_array('29', $permisosUsuario))
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('equipamientovehiculo.index') }}">
-                                <i class="fa-solid fa-cart-plus"></i> Equipamentos
+                                <i class="fa-solid fa-toolbox"></i> Equipamentos
                             </a>
                         </li>
                     @endif
                     @if (in_array('33', $permisosUsuario))
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('graficovehiculo.index') }}">
-                                <i class="fa-solid fa-truck-pickup"></i> Graficos
+                                <i class="fa-solid fa-image"></i> Graficos
                             </a>
                         </li>
                     @endif
@@ -120,13 +141,7 @@
                             </a>
                         </li>
                     @endif
-                    @if (in_array('14', $permisosUsuario))
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('tarifas.index') }}">
-                                <i class="fas fa-money-bill-wave"></i> Tarifas
-                            </a>
-                        </li>
-                    @endif
+
                     @if (in_array('21', $permisosUsuario))
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('surcursales.index') }}">
@@ -136,6 +151,7 @@
                     @endif
                 </ul>
             </li>
+
         </ul>
     </div>
 
@@ -181,10 +197,13 @@
     document.addEventListener('DOMContentLoaded', function() {
         var configLink = document.getElementById('configLink');
         var configLink2 = document.getElementById('configLink2');
+        var configLink3 = document.getElementById('configLink3');
         var configMenu = document.getElementById('configMenu');
         var configMenu2 = document.getElementById('configMenu2');
+        var configMenu3 = document.getElementById('configMenu3');
         var toggleIcon = document.getElementById('toggleIcon');
         var toggleIcon2 = document.getElementById('toggleIcon2');
+        var toggleIcon3 = document.getElementById('toggleIcon3');
 
         configLink.addEventListener('click', function(event) {
             event.preventDefault();
@@ -196,6 +215,11 @@
             event.preventDefault();
             configMenu2.classList.toggle('hidden');
             toggleIcon2.classList.toggle('rotate');
+        });
+        configLink3.addEventListener('click', function(event) {
+            event.preventDefault();
+            configMenu3.classList.toggle('hidden');
+            toggleIcon3.classList.toggle('rotate');
         });
 
         // Ensure that dropdowns are initialized
