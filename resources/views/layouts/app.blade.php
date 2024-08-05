@@ -99,7 +99,7 @@
                     @if (in_array('33', $permisosUsuario))
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('graficovehiculo.index') }}">
-                                <i class="fa-solid fa-image"></i> Graficos
+                                <i class="fa-solid fa-image"></i> Gráficos
                             </a>
                         </li>
                     @endif
