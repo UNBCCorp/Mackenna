@@ -33,13 +33,12 @@
 <body>
     <div class="container">
         <div class="modal fade" id="editUserGroupModal" tabindex="-1" aria-labelledby="editUserGroupModalLabel"
-        aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+            aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="editUserGroupModalLabel">Editar Rol</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                            aria-label="Close"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         @if (isset($userGroup))
@@ -50,7 +49,7 @@
                                 <div class="mb-3">
                                     <label for="edit_name" class="form-label">Nombre</label>
                                     <input type="text" name="name" id="edit_name" class="form-control"
-                                        value="{{ $userGroup->name }}" required />
+                                        value="{{ $userGroup->name }}" required maxlength="20" />
                                     <div class="error-message text-danger" id="editNameError"></div>
                                 </div>
                                 <div class="mb-3">

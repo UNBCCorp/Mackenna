@@ -25,7 +25,7 @@
                             <div class="mb-3">
                                 <label for="edit_nombre" class="form-label">Nombre</label>
                                 <input type="text" name="nombre" id="edit_nombre" class="form-control"
-                                    placeholder="Ingresar Nombre" required />
+                                    placeholder="Ingresar Nombre" required maxlength="20" />
                                 <div class="error-message text-danger" id="editNameError"></div>
                             </div>
                             <div class="mb-3">

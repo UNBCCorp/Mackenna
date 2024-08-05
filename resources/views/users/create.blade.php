@@ -54,7 +54,7 @@
                                     <div data-mdb-input-init class="form-outline">
                                         <label class="form-label" for="nombre">Nombre</label>
                                         <input type="text" id="name" name="name" class="form-control"
-                                            placeholder="Nombre" required value="{{ old('name') }}" />
+                                            placeholder="Nombre" required value="{{ old('name') }}" maxlength="20" />
                                         <span id="nameError" class="text-danger">{{ $errors->first('name') }}</span>
                                     </div>
                                 </div>
@@ -62,7 +62,8 @@
                                     <div data-mdb-input-init class="form-outline">
                                         <label class="form-label" for="apellido">Apellido</label>
                                         <input type="text" id="apellido" name="apellido" class="form-control"
-                                            placeholder="Apellido" required value="{{ old('apellido') }}" />
+                                            placeholder="Apellido" required maxlength="20"
+                                            value="{{ old('apellido') }}" />
                                         <span id="apellidoError"
                                             class="text-danger">{{ $errors->first('apellido') }}</span>
                                     </div>
@@ -90,7 +91,7 @@
                                         <label class="form-label" for="numero_documento">Número de Documento</label>
                                         <input type="text" id="numero_documento" name="numero_documento"
                                             class="form-control" placeholder="Número de Documento" required
-                                            value="{{ old('numero_documento') }}" />
+                                            maxlength="10" value="{{ old('numero_documento') }}" />
                                         <span id="numeroDocumentoError"
                                             class="text-danger">{{ $errors->first('numero_documento') }}</span>
                                     </div>
@@ -102,7 +103,7 @@
                                         <label class="form-label" for="numero_telefonico">Número Telefónico</label>
                                         <input type="text" id="numero_telefonico" name="numero_telefonico"
                                             class="form-control" placeholder="Número Telefónico" required
-                                            value="{{ old('numero_telefonico') }}" />
+                                            maxlength="10" value="{{ old('numero_telefonico') }}" />
                                         <span id="numeroTelefonicoError"
                                             class="text-danger">{{ $errors->first('numero_telefonico') }}</span>
                                     </div>
