@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container">
-        <h1 class="flex-grow-1 text-center mb-0">Graficos Vehículos</h1>
+        <h1 class="flex-grow-1 text-center mb-0">Gráficos Vehículos</h1>
         <br />
 
         <!-- Habilita el botón de crear solo si el usuario tiene el permiso correspondiente -->
@@ -10,7 +10,7 @@
             <!-- Cambia 8 por el ID del permiso necesario -->
             <div class="d-flex justify-content-end">
                 <a href="" class="btn btn-primary" data-bs-toggle="modal"
-                    data-bs-target="#createGraficovehiculoModal">+Crear Grafico</a>
+                    data-bs-target="#createGraficovehiculoModal">+Crear Gráfico</a>
             </div>
         @endif
         <form id="search-form" action="{{ route('graficovehiculo.index') }}" method="GET" class="mb-3">
@@ -25,7 +25,7 @@
                 <tr>
                     <th>ID</th>
                     <th>Nombre</th>
-                    <th>Grafico</th>
+                    <th>Gráfico</th>
                     <th></th>
                 </tr>
             </thead>
